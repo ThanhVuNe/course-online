@@ -1,0 +1,28 @@
+#accordionCurriculum2 {
+    max-height: 650px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #212041 #212041;
+    /* Hide the scrollbar by default */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+/* Show the scrollbar when hovering over the element */
+#accordionCurriculum2:hover {
+    scrollbar-width: thin;
+    scrollbar-color: #212041 #212041;
+}
+
+/* Webkit browsers like Chrome and Safari */
+#accordionCurriculum2::-webkit-scrollbar {
+    width: 5px;
+}
+
+#accordionCurriculum2::-webkit-scrollbar-thumb {
+    background-color: #212041;
+}
+
+#accordionCurriculum2::-webkit-scrollbar-track {
+    background-color: #212041;
+}

@@ -1,0 +1,24 @@
+@media (min-width:576px) {
+    .modal-dialog {
+        max-width: 900px;
+        margin: 1.75rem auto
+    }
+}
+
+.group-btn-function {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+}
+
+.progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 5px;
+    width: 33.3%;
+}
