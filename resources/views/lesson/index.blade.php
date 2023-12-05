@@ -67,7 +67,7 @@
 
                 <h3 class="text-white">Course Description</h3>
 
-                <p class="mb-6 line-height-md">{{ $course->description }}</p>
+                <p class="mb-6 line-height-md">{{!! $course->description !!}}</p>
                 <a class="text-teal read-more h6 d-inline-block mb-8" data-bs-toggle="collapse" href="#readcollapseExample"
                     role="button" aria-expanded="false" aria-controls="readcollapseExample">
                     <span class="d-inline-flex align-items-center more">

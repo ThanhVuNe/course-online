@@ -23,7 +23,7 @@ class ProfileFactory extends Factory
             'user_id' => $user->id,
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'avatar' => 'avatar/defaul.jpg',
+            'avatar' => 'avatar/default.jpg',
             'description' => fake('en_US')->text(200),
         ];
     }
