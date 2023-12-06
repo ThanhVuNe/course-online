@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetCoursesRequest;
-use App\Models\Course;
-use App\Models\Survey;
 use App\Services\CategoryService;
 use App\Services\CourseService;
 use App\Services\ReviewService;
 use App\Services\SurveyService;
+use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -76,9 +77,10 @@ class CourseController extends Controller
         $enrolled = false;
         if (auth()->check()) {
             $enrolled = $this->courseService->isEnrolled((int) auth()->id(), $id);
+            $favorited = $this->courseService->isFavorited((int) auth()->id(), $id);
         }
 
-        return view('course.show', compact('course', 'reviews', 'enrolled', 'recommend'));
+        return view('course.show', compact('course', 'reviews', 'enrolled', 'recommend', 'favorited'));
     }
 
     /**
@@ -89,5 +91,35 @@ class CourseController extends Controller
         $courses = $this->courseService->getMyCourses((int) auth()->id());
 
         return view('user.course.index', compact('courses'));
+    }
+
+    /**
+     * @return View
+     */
+    public function getMyFavorites(): View
+    {
+        $courses = $this->courseService->getMyFavorites((int) auth()->id());
+
+        return view('user.favorite.index', compact('courses'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @return RedirectResponse
+     */
+    public function toggleFavorite(int $courseId): RedirectResponse
+    {
+        try {
+            $userId = (int) auth()->id();
+            if ($this->courseService->deleteFavorite($userId, $courseId)) {
+                session()->flash('message', __('messages.favorite.success.delete'));
+                return redirect()->back();
+            }
+            session()->flash('message', __('messages.favorite.success.create'));
+            
+        } catch (Exception $e) {
+            session()->flash('error', __('messages.favorite.error.create'));
+        }
+        return redirect()->back();
     }
 }

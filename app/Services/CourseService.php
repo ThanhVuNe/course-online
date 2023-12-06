@@ -14,6 +14,7 @@ use App\Repositories\Interfaces\EnrollmentRepositoryInterface;
 use Illuminate\Support\Facades\Redis;
 use App\Repositories\Interfaces\SurveyRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\FavoriteRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class CourseService
@@ -35,14 +36,21 @@ class CourseService
      */
     protected $surveyRepo;
 
+    /**
+     * @var FavoriteRepositoryInterface
+     */
+    protected $favoriteRepo;
+
     public function __construct(
         CourseRepositoryInterface $courseRepo,
         EnrollmentRepositoryInterface $enrollmentRepo,
-        SurveyRepositoryInterface $surveyRepo
+        SurveyRepositoryInterface $surveyRepo,
+        FavoriteRepositoryInterface $favoriteRepo
     ) {
         $this->courseRepo = $courseRepo;
         $this->enrollmentRepo = $enrollmentRepo;
         $this->surveyRepo = $surveyRepo;
+        $this->favoriteRepo = $favoriteRepo;
     }
 
     /**
@@ -113,6 +121,15 @@ class CourseService
         return $this->enrollmentRepo->getMyCoures($userId);
     }
 
+     /**
+     * @param int $userId
+     * @return LengthAwarePaginator<Enrollment>
+     */
+    public function getMyFavorites($userId)
+    {
+        return $this->favoriteRepo->getMyFavorites($userId);
+    }
+
     /**
      * @param int $userId
      * @param int $courseId
@@ -122,6 +139,45 @@ class CourseService
     public function isEnrolled($userId, $courseId)
     {
         return (bool) $this->enrollmentRepo->isEnrolled($userId, $courseId);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $courseId
+     *
+     * @return bool
+     */
+    public function isFavorited($userId, $courseId)
+    {
+        return (bool) $this->favoriteRepo->isFavorited($userId, $courseId);
+    }
+
+     /**
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function createFavorite($data)
+    {
+        return $this->favoriteRepo->create($data);
+    }
+
+    public function deleteFavorite($userId, $courseId)
+    {
+        $favorite = $this->favoriteRepo->isFavoritedDeleted($userId, $courseId);
+        if($favorite) {
+            if ($favorite->trashed()) {
+                $favorite->restore();
+                return false;
+            }
+            // dd('delete');
+            $favorite->delete();
+            return true;
+        }
+        $this->favoriteRepo->create(
+            ['user_id' => $userId, 'course_id' => $courseId]
+        );
+        return false;
     }
 
     /**

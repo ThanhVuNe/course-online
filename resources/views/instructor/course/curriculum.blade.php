@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <a class="btn btn-primary shadow"
-                            style="position: fixed; bottom: 160px; right: 150px; z-index: 1000;"
+                            style="position: fixed; bottom: 100px; right: 100px; z-index: 1000;"
                             href="{{ route('instructor.topics.create', ['courseId' => $course->id]) }}" style="">Add
                             topic</a>
                     </div>

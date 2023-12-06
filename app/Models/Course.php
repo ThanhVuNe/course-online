@@ -137,6 +137,14 @@ class Course extends Model
         return $this->hasMany(Enrollment::class, 'course_id', 'id');
     }
 
+     /**
+     * @return HasMany<Favorites>
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'course_id', 'id');
+    }
+
     /**
      * @return BelongsTo<User, Course>
      */

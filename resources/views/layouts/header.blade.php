@@ -133,8 +133,8 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link" id="navbarFavorites" href="#">
-                            {{ __('favorites') }}(To do)
+                        <a class="nav-link" id="navbarFavorites" href="{{ route('users.my-favorites') }}">
+                            {{ __('favorites') }}
                         </a>
                     </li>
                 @endauth

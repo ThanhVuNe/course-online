@@ -10,10 +10,12 @@ use App\Repositories\CartRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\EnrollmentRepository;
+use App\Repositories\FavoriteRepository;
 use App\Repositories\Interfaces\CartRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\EnrollmentRepositoryInterface;
+use App\Repositories\Interfaces\FavoriteRepositoryInterface;
 use App\Repositories\Interfaces\LessonRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
@@ -106,6 +108,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             SurveyRepositoryInterface::class,
             SurveyRepository::class
+        );
+
+        $this->app->singleton(
+            FavoriteRepositoryInterface::class,
+            FavoriteRepository::class
         );
     }
 

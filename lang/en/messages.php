@@ -101,5 +101,14 @@ return [
             'error' => 'Something went wrong.',
             'cancel' => 'You have canceled the transaction.'
         ]
+        ],
+    'favorite' => [
+        'success' => [
+            'delete' => 'Remove favorite course successfull',
+            'create' => 'Add favorite course successfull'
+        ],
+        'error' => [
+            'create' => 'Add favorite course error'
+        ]
     ]
 ];

@@ -41,11 +41,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('profile/image', [ProfileController::class, 'updateImage'])->name('updateImage');
         Route::get('profile/getUploadUrl', [ProfileController::class, 'getUploadUrl'])->name('getUploadUrl');
         Route::get('my-courses', [CourseController::class, 'getMyCourses'])->name('my-courses');
+        Route::get('my-favorites', [CourseController::class, 'getMyFavorites'])->name('my-favorites');
         Route::get('survey-form', [LoginController::class, 'survey'])->name('survey-form');
         Route::get('register', [InstructorRegisterController::class, 'index'])->name('register');
         Route::post('send-mail', [InstructorRegisterController::class, 'submitRegisterForm'])->name('sendMail');
         Route::get('comfirm-instructor/{id}', [InstructorRegisterController::class, 'updateRole'])->name('comfirm')->middleware('signed');
     });
+    Route::post('toggle-favorite/{courseId}', [CourseController::class, 'toggleFavorite'])->name('toggle-favorite');
     Route::resource('comments', CommentController::class)->only(['store']);
     Route::resource('reviews', ReviewController::class)->only(['store']);
     Route::resource('carts', CartController::class)->only(['index', 'store']);
