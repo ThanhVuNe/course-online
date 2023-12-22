@@ -194,6 +194,8 @@ class CourseService
                 return 'DATE_FORMAT(e.created_at, "%Y-%m")';
             case 'week':
                 return 'DATE_FORMAT(e.created_at, "%Y-%u")';
+            case 'day': // Add this case for day
+                return 'DATE_FORMAT(e.created_at, "%Y-%m-%d")';
             default:
                 return '';
         }
@@ -223,13 +225,16 @@ class CourseService
      */
     public function getCourseRevenueStatistics(RevenueReportRequest $request): Collection
     {
-        $startDate = Carbon::createFromFormat('Y/m/d', $request->input('startDate'));
-        $endDate = Carbon::createFromFormat('Y/m/d', $request->input('endDate'));
+        // dd($request);
+        $instructorId = (int)auth()->id();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
         $statisBy = $request->input('statisBy');
         $dateFormats = [
             'year' => "%Y",
             'month' => "%Y-%m",
             'week' => "%Y-%u",
+            'day' => "%Y-%m-%d"
         ];
         $dateFormat = $dateFormats[$statisBy] ?? "%Y-%m-%d";
 
@@ -237,7 +242,7 @@ class CourseService
             $startDate,
             $endDate,
             $dateFormat,
-            $request->input('instructorId'),
+            $instructorId,
             $request->input('courseId')
         );
     }
@@ -270,5 +275,10 @@ class CourseService
         $level = $recommend->first()->level;
 
         return $this->courseRepo->recommnedCourse($categoryIds, $language, $level);
+    }
+
+    public function getStudents($id)
+    {
+        return $this->enrollmentRepo->getStudents($id);
     }
 }

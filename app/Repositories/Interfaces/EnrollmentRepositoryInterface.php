@@ -22,4 +22,11 @@ interface EnrollmentRepositoryInterface extends RepositoryInterface
      * @return int
      */
     public function isEnrolled($userId, $courseId);
+
+    /**
+     * @param int $id
+     * 
+     * @return Collection
+     */
+    public function getStudents($id);
 }

@@ -112,4 +112,11 @@ class CourseController extends Controller
 
         return view('instructor.course.curriculum', compact('course'));
     }
+
+    public function getStudents(int $id): View
+    {
+        $enrollments = $this->courseService->getStudents($id);
+        // dd($students);
+        return view('instructor.course.students', compact('enrollments'));
+    }
 }

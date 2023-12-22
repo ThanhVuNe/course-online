@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Instructor\HomeController as InstructorHomeController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
 use App\Http\Controllers\Instructor\TopicController;
 use App\Http\Controllers\LessonController;
@@ -66,9 +67,7 @@ Route::middleware(['auth'])->group(function () {
     //admin and instructor can access
     Route::middleware(['instructor'])->group(function () {
         Route::prefix('instructor')->name('instructor.')->group(function () {
-            Route::get('/', function () {
-                return view('instructor.home');
-            })->name('home');
+            Route::get('/', [InstructorHomeController::class, 'home'])->name('home');
 
             Route::resource('courses', InstructorCourseController::class);
             Route::get('courses/create/upload-file/{courseId}', [InstructorCourseController::class, 'upload'])->name('courses.upload');
@@ -83,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/lessons', [InstructorLessonController::class, 'store'])->name('lessons.store');
             Route::get('/lessons/getUploadUrl/{lessonId}', [InstructorLessonController::class, 'getUploadUrl'])->name('lessons.getUrl');
             Route::put('/lessons/updateUrl/{lessonId}', [InstructorLessonController::class, 'updateUrl'])->name('lessons.updateUrl');
+
+            Route::get('courses/{courseId}/students/', [InstructorCourseController::class, 'getStudents'])->name('courses.students');
         });
     });
 

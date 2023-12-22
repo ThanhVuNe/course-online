@@ -38,4 +38,14 @@ class EnrollmentRepository extends BaseRepository implements EnrollmentRepositor
         /** @phpstan-ignore-next-line */
         return $this->model->owner($userId)->where('course_id', $courseId)->get()->count();
     }
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function getStudents($id)
+    {
+        return $this->model->where('course_id', $id)->with(['user.profile'])->get();
+    }
 }
