@@ -24,6 +24,7 @@ use App\Repositories\Interfaces\ProfileRepositoryInterface;
 use App\Repositories\Interfaces\ResetPasswordRepositoryInterface;
 use App\Repositories\Interfaces\ReviewRepositoryInterface;
 use App\Repositories\Interfaces\SurveyRepositoryInterface;
+use App\Repositories\Interfaces\TeacherProfileRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\LessonRepository;
@@ -32,6 +33,7 @@ use App\Repositories\ProfileRepository;
 use App\Repositories\ResetPasswordRepository;
 use App\Repositories\ReviewRepository;
 use App\Repositories\SurveyRepository;
+use App\Repositories\TeacherProfileRepository;
 use App\Repositories\TopicRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Blade;
@@ -120,6 +122,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             InstructorRepositoryInterface::class,
             InstructorRepository::class
+        );
+
+        $this->app->singleton(
+            TeacherProfileRepositoryInterface::class,
+            TeacherProfileRepository::class
         );
     }
 

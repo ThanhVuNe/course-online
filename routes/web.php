@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Instructor\HomeController as InstructorHomeController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
+use App\Http\Controllers\Instructor\ProfileController as InstructorProfileController;
 use App\Http\Controllers\Instructor\TopicController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LoginController;
@@ -70,16 +71,18 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('instructor')->name('instructor.')->group(function () {
             Route::get('/', [InstructorHomeController::class, 'home'])->name('home');
 
+            Route::resource('profile', InstructorProfileController::class);
+            Route::put('profile', [InstructorProfileController::class, 'update'])->name('profile.update');
             Route::resource('courses', InstructorCourseController::class);
             Route::get('courses/create/upload-file/{courseId}', [InstructorCourseController::class, 'upload'])->name('courses.upload');
             Route::get('courses/create/getUploadUrl/{courseId}', [InstructorCourseController::class, 'getUploadUrl'])->name('courses.getUrl');
             Route::put('courses/create/updateUrl/{courseId}', [InstructorCourseController::class, 'updateUrl'])->name('courses.updateUrl');
             Route::get('courses/create/upload-file/{courseId}', [InstructorCourseController::class, 'upload'])->name('courses.upload');
-            Route::get('courses/{courseId}/curriculum', [InstructorCourseController::class, 'showCurriculum'])->name('curriculum.show');
+            Route::get('courses/{courseId}/curriculum', [InstructorCourseController::class, 'showCurriculum'])->name('courses.curriculum.show');
             Route::get('/courses/{courseId}/curriculum/topics/create', [TopicController::class, 'create'])
                 ->name('topics.create');
             Route::post('/courses/{courseId}/curriculum/topics', [TopicController::class, 'store'])->name('topics.store');
-            Route::get('/courses/{courseId}/topics/{topicId}/lessons/create', [InstructorLessonController::class, 'create'])->name('lessons.create');
+            Route::get('/courses/{courseId}/topics/{topicId}/lessons/create', [InstructorLessonController::class, 'create'])->name('courses.lessons.create');
             Route::post('/lessons', [InstructorLessonController::class, 'store'])->name('lessons.store');
             Route::get('/lessons/getUploadUrl/{lessonId}', [InstructorLessonController::class, 'getUploadUrl'])->name('lessons.getUrl');
             Route::put('/lessons/updateUrl/{lessonId}', [InstructorLessonController::class, 'updateUrl'])->name('lessons.updateUrl');

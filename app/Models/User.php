@@ -50,6 +50,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\TeacherProfile>
+     */
+    public function teacher_profile(): HasOne
+    {
+        return $this->hasOne(TeacherProfile::class, 'user_id');
+    }
+
+    /**
      * @return HasOne<Survey>
      */
     public function survey(): HasOne

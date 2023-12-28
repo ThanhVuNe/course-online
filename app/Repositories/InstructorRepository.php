@@ -23,7 +23,7 @@ class InstructorRepository extends BaseRepository implements InstructorRepositor
 
     public function getInstructor($id)
     {
-        return $this->model->with(['profile','courses.topics.lessons','reviews'])->
+        return $this->model->with(['teacher_profile','profile','courses.topics.lessons','reviews'])->
         where('role_id', UserRoleEnum::Instructor)->findOrFail($id);
     }
 }
