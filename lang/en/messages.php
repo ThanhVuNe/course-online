@@ -11,7 +11,8 @@ return [
         ],
         'error' => [
             'login' => 'Login error, please check your email or password',
-            'active' => 'Your account has not been activated, please check your email for authentication.'
+            'active' => 'Your account has not been activated, please check your email for authentication.',
+            'block' => 'This account has been locked due to excessive login attempts. Please contact admin to unlock.'
         ]
     ],
     'profile' => [
@@ -67,10 +68,16 @@ return [
         'success' => [
             'send' => 'Send mail successfully',
             'register' => 'Register instructor successfully',
+            'profile' => [
+                'update' => 'Update profile successfully'
+            ]
         ],
         'error' => [
             'request' => 'Please waiting 1 minutes to send email again',
             'register' => 'You have register instructor',
+            'profile' => [
+                'update' => 'Failed to update profile'
+            ]
         ]
     ],
     'checkout' => [

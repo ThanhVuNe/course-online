@@ -28,6 +28,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->model->with('profile')->find($userId);
     }
 
+    public function getInforInstructor($userId)
+    {
+        return $this->model->with(['profile','teacher_profile'])->find($userId);
+    }
+
     /**
      * @param string $email
      * @param string $password
@@ -55,5 +60,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function findUser($token)
     {
         return $this->model->where('token_authentication', $token)->first();
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return Model|null
+     */
+    public function findUserByMail($email)
+    {
+        return $this->model->where('email', $email)->first();
     }
 }

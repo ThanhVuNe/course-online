@@ -32,4 +32,13 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return Model|null
      */
     public function findUser($token);
+
+    /**
+     * @param string $email
+     *
+     * @return Model|null
+     */
+    public function findUserByMail($email);
+
+    public function getInforInstructor($userId);
 }

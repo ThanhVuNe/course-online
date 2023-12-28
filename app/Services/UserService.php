@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use AmazonS3;
+use App\Enums\ActiveUserEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,11 @@ class UserService
      * @var userRepositoryInterface
      */
     protected $userRepository;
+
+    /**
+     * @var int
+     */
+    protected $maxAttempts = 5;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
@@ -43,6 +49,16 @@ class UserService
     public function getInfor($userId)
     {
         return $this->userRepository->getInfor($userId);
+    }
+
+     /**
+     * @param mixed $userId
+     *
+     * @return mixed
+     */
+    public function getInforInstructor($userId)
+    {
+        return $this->userRepository->getInforInstructor($userId);
     }
 
     /**
@@ -99,5 +115,25 @@ class UserService
     public function findUser($token)
     {
         return $this->userRepository->findUser($token);
+    }
+
+      /**
+     * @param string $email
+     *
+     * @return bool
+     */
+    public function checkLoginAttempts($email)
+    {
+        $result = false;
+        $user = $this->userRepository->findUserByMail($email);
+        if ($user) {
+            $user->login_attempts++;
+            if ($user->login_attempts >= $this->maxAttempts) {
+                $user->is_active = ActiveUserEnum::UnActive;
+                $result = true;
+            }
+            $user->save();
+        }
+        return $result;
     }
 }
