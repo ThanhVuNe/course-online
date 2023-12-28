@@ -11,11 +11,13 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\FavoriteRepository;
+use App\Repositories\InstructorRepository;
 use App\Repositories\Interfaces\CartRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\EnrollmentRepositoryInterface;
 use App\Repositories\Interfaces\FavoriteRepositoryInterface;
+use App\Repositories\Interfaces\InstructorRepositoryInterface;
 use App\Repositories\Interfaces\LessonRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
@@ -113,6 +115,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             FavoriteRepositoryInterface::class,
             FavoriteRepository::class
+        );
+
+        $this->app->singleton(
+            InstructorRepositoryInterface::class,
+            InstructorRepository::class
         );
     }
 

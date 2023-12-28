@@ -150,7 +150,7 @@ class Course extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'instructor_id ', 'id');
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
     }
 
     /**
