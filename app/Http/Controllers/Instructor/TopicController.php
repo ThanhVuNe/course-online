@@ -34,7 +34,7 @@ class TopicController extends Controller
     {
         if ($this->topicService->create($request)) {
             session()->flash('message', __('messages.topic.success.create'));
-            return redirect()->route('instructor.curriculum.show', compact('courseId'));
+            return redirect()->route('instructor.courses.curriculum.show', compact('courseId'));
         }
         session()->flash('error', __('messages.topic.error.create'));
 

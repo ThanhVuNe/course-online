@@ -20,14 +20,14 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
+        $category = Category::all('id')->random();
+
         return [
             'title' => fake()->sentence,
             'introduction' => fake()->paragraph,
             'price' => fake()->randomFloat(2, 10, 100),
             'discount' => fake()->numberBetween(0, 50),
-            'category_id'  => function () {
-                return Category::factory()->create()->id;
-            },
+            'category_id'  => $category->id,
             'instructor_id' => fake()->numberBetween(1, 10),
             'trailer_url' => fake()->url,
             'average_rating' => fake()->randomFloat(1, 1, 5),
@@ -36,7 +36,7 @@ class CourseFactory extends Factory
             'total_lessons' => fake()->numberBetween(5, 50),
             'languages' => fake()->numberBetween(1, 3),
             'level' => fake()->numberBetween(1, 3),
-            'poster_url' => fake()->imageUrl(300, 200),
+            'poster_url' => 'course/default.jpg',
             'total_time' => fake()->randomFloat(2, 1, 100),
             'description' => fake()->paragraphs(3, true),
             'learns_description' => fake()->paragraphs(3, true),

@@ -54,7 +54,7 @@
                                             <div class="col-lg-2 mx-6">
                                                 <a class="btn btn-primary btn-sm btn-block mx-3"
                                                     style="background-color:#8685d1" type="button" name="button"
-                                                    href="{{ route('instructor.lessons.create', ['topicId' => $topic->id, 'courseId' => $course->id]) }}">Add
+                                                    href="{{ route('instructor.courses.lessons.create', ['topicId' => $topic->id, 'courseId' => $course->id]) }}">Add
                                                     Lesson</a>
                                             </div>
                                         </div>

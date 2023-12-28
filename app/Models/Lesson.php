@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use AmazonS3;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -40,5 +41,16 @@ class Lesson extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class, 'topic_id', 'id');
+    }
+
+     /**
+     * poster get from s3
+     * @param string $value
+     *
+     * @return string
+     */
+    public function getLessonUrlAttribute($value)
+    {
+        return AmazonS3::getObjectUrl($value);
     }
 }

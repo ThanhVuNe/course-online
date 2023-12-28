@@ -20,6 +20,11 @@
                             @csrf
                             @instructor
                                 <h2 style="text-align: center;">YOU HAVE REGISTERED AS AN INSTRUCTOR</h2>
+                                <div class="text-center my-5">
+                                    <a class="btn btn-primary" href="{{ route('instructor.home') }}">
+                                        Click to go to the page instructor
+                                    </a>
+                                </div>
                             @else
                                 <h2 style="text-align: center;">FORM REGISTER INSTRUCTOR</h2>
                                 <div class="mb-3">

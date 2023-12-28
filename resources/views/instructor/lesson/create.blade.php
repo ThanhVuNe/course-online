@@ -90,7 +90,7 @@
                                 <div class="row mb-3">
                                     <div class="offset-sm-10 col-sm-2">
                                         <button type="button" id="uploadS3" class="btn btn-success">UPLOAD</button>
-                                        <a href="{{ route('instructor.curriculum.show', ['courseId' => $courseId]) }}" id="btnFinish" class="btn btn-primary">FINISH</a>
+                                        <a href="{{ route('instructor.courses.curriculum.show', ['courseId' => $courseId]) }}" id="btnFinish" class="btn btn-primary">FINISH</a>
                                     </div>
                                 </div>
                             </div>

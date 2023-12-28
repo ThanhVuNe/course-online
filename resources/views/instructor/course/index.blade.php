@@ -9,6 +9,7 @@
             <div>
                 <div class="card">
                     <div class="card-body">
+                        @include('layouts.message')
                         <a href="{{ route('instructor.courses.create') }}" class="btn btn-primary d-inline-block m-2">
                             Add Course
                             <i class="bi bi-plus"></i>
@@ -36,7 +37,7 @@
                                         <td>{{ data_get($course, 'category.name') }}</td>
                                         <td>{{ $course->price }} $</td>
                                         <td>{{ $course->average_rating }}</td>
-                                        <td>{{ $course->total_students }}</td>
+                                        <td> <a href="{{ route('instructor.courses.students', ['courseId' => $course->id]) }}">See {{ $course->total_students }} students</a></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-primary dropdown-toggle btn-sm" type="button"
@@ -53,12 +54,12 @@
                                         <td>
                                             <a class="btn btn-primary btn-sm" aria-expanded="false"
                                                 style=" width: 100%; text-align : center"
-                                                href="{{ route('instructor.curriculum.show', ['courseId' => $course->id]) }}">
+                                                href="{{ route('instructor.courses.curriculum.show', ['courseId' => $course->id]) }}">
                                                 Access
                                             </a>
                                         </td>
                                         <td>
-                                            <input class="form-check-input header-checkbox" type="checkbox"
+                                            <input class="form-check-input header-checkbox" type="checkbox" onclick="return false;"
                                                 {{ $course->is_active ? 'checked' : '' }}>
                                         </td>
                                     </tr>
