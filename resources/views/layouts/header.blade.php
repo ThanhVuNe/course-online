@@ -112,34 +112,33 @@
 
             <!-- Navigation -->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown dropdown-full-width">
+                <li class="nav-item dropdown-full-width">
                     <a class="nav-link" id="navbarLandings" href="{{ route('home') }}">
                         {{ __('home') }}
                     </a>
                 </li>
-
-                @instructor
-                <li class="nav-item dropdown">
-                    <a class="nav-link" id="navbarInstructors" href="{{ route('instructor.home') }}">
-                        {{ __('instructor') }}
+               
+                <li class="nav-item dropdown-full-width">
+                    <a class="nav-link" id="navbarLandings" href="{{ route('teacher.home') }}">
+                        {{ __('instructors') }}
                     </a>
                 </li>
-                @endinstructor
+
                 @auth
-                    <li class="nav-item dropdown">
+                    <li class="nav-item">
                         <a class="nav-link" id="navbarCourses" href="{{ route('users.my-courses') }}">
                             {{ __('courses') }}
                         </a>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <li class="nav-item">
                         <a class="nav-link" id="navbarFavorites" href="{{ route('users.my-favorites') }}">
                             {{ __('favorites') }}
                         </a>
                     </li>
                 @endauth
 
-                <li class="nav-item dropdown">
+                <li class="nav-item">
                     <a class="nav-link" id="navbarAboutUs" href="#">
                         {{ __('about') }}(To do)
                     </a>
@@ -216,12 +215,12 @@
                 </a>
             </li>
 
-            <li class="nav-item border-0 px-0">
+            <li class="nav-item border-0 px-0 dropdown">
                 @if (auth()->check())
                     <a class="nav-link d-flex px-3 px-md-4" data-bs-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">
                         <!-- Avatar -->
                         <div class="avatar avatar-sm">
-                            <img src="{{ asset('assets/img/avatars/avatar-1.jpg') }}" alt="..."
+                            <img src="{{ $profile->avatar }}" alt="..."
                                 class="avatar-img rounded-circle">
                         </div>
                     </a>
@@ -231,6 +230,13 @@
                                 {{ __('profile') }}
                             </a>
                         </li>
+                        @instructor
+                        <li class="dropdown-item">
+                            <a class="dropdown-link" href="{{route('instructor.home')}}">
+                                {{ __('instructor') }}
+                            </a>
+                        </li>
+                        @endinstructor
                         <li class="dropdown-item">
                             <a class="dropdown-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogout">
                                 {{ __('logout') }}

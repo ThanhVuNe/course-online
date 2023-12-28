@@ -45,4 +45,14 @@ class ProfileService
     {
         return $this->profileRepo->create(array_merge(['user_id' => $userId], $data));
     }
+
+    /**
+     * @param int $id
+     * 
+     * @return Model
+     */
+    public function findUser($userId)
+    {
+        return $this->profileRepo->findUser($userId);
+    }
 }
