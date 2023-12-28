@@ -28,7 +28,7 @@ class CourseRepository extends BaseRepository implements CourseRepositoryInterfa
      */
     public function getCourses($request): LengthAwarePaginator
     {
-        $courses = Course::with('category')
+        $courses = Course::with(['category','user.profile','favorites'])
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->filterBySearchTerm($request->input('search'));
             })
@@ -178,5 +178,15 @@ class CourseRepository extends BaseRepository implements CourseRepositoryInterfa
             ->inRandomOrder()
             ->take(self::PAGESIZE)
             ->get();
+    }
+
+
+   /**
+     * @param int $id
+     * @return Model
+     */
+    public function getCourse($id)
+    {
+        return $this->model->with('user.profile')->findOrFail($id);
     }
 }

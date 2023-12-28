@@ -68,17 +68,17 @@ class CourseService
      */
     public function getCourses(GetCoursesRequest $request): LengthAwarePaginator
     {
-        $cacheKey = 'courses_' . md5(serialize($request->validated()));
+        // $cacheKey = 'courses_' . md5(serialize($request->validated()));
 
-        if (Redis::exists($cacheKey)) {
-            $serializedData = Redis::get($cacheKey);
-            if ($serializedData) {
-                return unserialize($serializedData);
-            }
-        }
+        // if (Redis::exists($cacheKey)) {
+        //     $serializedData = Redis::get($cacheKey);
+        //     if ($serializedData) {
+        //         return unserialize($serializedData);
+        //     }
+        // }
 
         $courses = $this->courseRepo->getCourses($request);
-        Redis::setex($cacheKey, self::CACHE_EXPIRATION, serialize($courses));
+        // Redis::setex($cacheKey, self::CACHE_EXPIRATION, serialize($courses));
 
         return $courses;
     }
@@ -96,9 +96,9 @@ class CourseService
      * @param int $id
      * @return Model
      */
-    public function getCourse(int $id): Model
+    public function getCourse(int $id)
     {
-        return $this->courseRepo->findOrFail($id);
+        return $this->courseRepo->getCourse($id);
     }
 
     /**

@@ -55,8 +55,8 @@ class CourseController extends Controller
 
         $courses = $this->courseService->getCourses($request);
 
+        // dd($request->validated());
         $courses->appends($request->validated());
-
         $categories = $this->categoryService->getAll(['id', 'name']);
 
         $recommend = $this->courseService->recommnedCourse($userId);
@@ -72,9 +72,11 @@ class CourseController extends Controller
     {
         $userId = (int) auth()->id();
         $course = $this->courseService->getCourse($id);
+
         $reviews = $this->reviewService->getReviewsByCourse($id);
         $recommend = $this->courseService->recommnedCourse($userId);
         $enrolled = false;
+        $favorited = false;
         if (auth()->check()) {
             $enrolled = $this->courseService->isEnrolled((int) auth()->id(), $id);
             $favorited = $this->courseService->isFavorited((int) auth()->id(), $id);
@@ -107,19 +109,18 @@ class CourseController extends Controller
      * Store a newly created resource in storage.
      * @return RedirectResponse
      */
-    public function toggleFavorite(int $courseId): RedirectResponse
+    public function toggleFavorite(int $courseId)
     {
         try {
             $userId = (int) auth()->id();
-            if ($this->courseService->deleteFavorite($userId, $courseId)) {
-                session()->flash('message', __('messages.favorite.success.delete'));
-                return redirect()->back();
-            }
-            session()->flash('message', __('messages.favorite.success.create'));
             
+            if ($this->courseService->deleteFavorite($userId, $courseId)) {
+                return response()->json(['message' => __('messages.favorite.success.delete')]);
+            }
+    
+            return response()->json(['message' => __('messages.favorite.success.create')]);
         } catch (Exception $e) {
-            session()->flash('error', __('messages.favorite.error.create'));
+            return response()->json(['error' => __('messages.favorite.error.create')], 500);
         }
-        return redirect()->back();
     }
 }

@@ -17,9 +17,59 @@
 @endsection
 @section('style')
 <link rel="stylesheet" href="{{ asset('assets/css/toast.css') }}">
+<style>
+    .heart-animation {
+        position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.5em;
+    height: 1.5em;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none; /* Initially hidden */
+}
+
+@keyframes heartAnimation {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+</style>
 @endsection
 @section('script')
 <script src="{{ asset('assets/js/toast.js') }}"></script>
+<script src="{{ asset('assets/js/courses.js') }}"></script>
+<script type="module">
+$(document).ready(function () {
+    $('.favorite-button').click(function () {
+        var button = $(this);
+        var courseId = button.data('course-id');
+        var favorited = button.data('favorited') === 'true';
+        var url = button.closest('form').data('url'); // Get the URL from the form data-url attribute
+        button.find('.heart-animation').css('display', 'inline-block');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                _token: $('[name="_token"]').val(), // Use the CSRF token from the page
+            },
+            success: function (data) {
+                var newFavorited = !favorited;
+                button.data('favorited', newFavorited.toString());
+                button.css('background-color', newFavorited ? 'red' : '');
+
+                button.find('.heart-animation').hide();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
+});
+</script>
 @endsection
 @section('content')
 <!-- PAGE HEADER ================================================== -->
@@ -37,34 +87,39 @@
                 <h1 class="me-xl-14 text-white">
                     {{ $course->title }}
                 </h1>
-                <p class="me-xl-13 mb-5 text-white">{!! $course->introduction !!}</p>
-                <form action="{{ route('toggle-favorite', ['courseId' => $course->id]) }}" method="post">
-                    @csrf
-                    <button type="submit"
-                    class="badge badge-lg badge-rounded-circle badge-secondary font-size-base badge-float badge-float-inside top-0 text-white"
-                    style="{{ $favorited ? 'background-color: red;' : '' }}">
+                <p style="overflow: hidden; display: -webkit-box;
+                 -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                " class="me-xl-13 mb-5 text-white">{!! $course->introduction !!}</p>
+               <form id="favoriteForm_{{ $course->id }}" action="{{ route('toggle-favorite', ['courseId' => $course->id]) }}" method="post" data-url="{{ route('toggle-favorite', ['courseId' => $course->id]) }}">
+                @csrf
+                <button type="button" class="favorite-button badge badge-lg badge-rounded-circle badge-secondary font-size-base badge-float badge-float-inside top-0 text-white" style="border: 1px; background-color: {{ $favorited ? 'red': '' }}"
+                    data-course-id="{{ $course->id }}"
+                    data-favorited="{{ $favorited ? 'true' : 'false' }}">
                     <i class="far fa-heart"></i>
+                    <span class="heart-animation"></span>
                 </button>
-                </form>
+            </form>
             </div>
 
             <!-- COURSE META ================================================== -->
             <div class="d-md-flex align-items-center mb-5 course-single-white">
                 <div class="border rounded-circle d-inline-block mb-4 mb-md-0 me-md-6 me-lg-4 me-xl-6 bg-white">
                     <div class="p-2">
-                        <img src="{{ asset('assets/img/avatars/avatar-1.jpg') }}" alt="..." class="rounded-circle"
-                            width="68" height="68">
+                        <img src="{{ $course->user->profile->avatar }}" alt="..." class="rounded-circle" width="68"
+                            height="68">
                     </div>
                 </div>
 
                 <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
                     <h6 class="mb-0 text-white">Created by</h6>
-                    <a href="#" class="font-size-sm text-white">Alison Dawn</a>
+                    <a href="#" class="fw-bold">{{ $course->user->profile->full_name }}({{ $course->user->username
+                        }})</a>
                 </div>
 
                 <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
                     <h6 class="mb-0 text-white">Categories</h6>
-                    <a href="#" class="font-size-sm text-white">{{ ucfirst($course->category->name) }}</a>
+                    <a href="#" class="fw-bold">{{ ucfirst($course->category->name) }}</a>
                 </div>
 
                 <div class="mb-4 mb-md-0 me-md-6 me-lg-4 me-xl-6">
@@ -94,7 +149,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="pills-instructor-tab" data-bs-toggle="pill" href="#pills-instructor"
-                        role="tab" aria-controls="pills-instructor" aria-selected="false">Instructor(To do)</a>
+                        role="tab" aria-controls="pills-instructor" aria-selected="false">Instructor</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="pills-reviews-tab" data-bs-toggle="pill" href="#pills-reviews" role="tab"
@@ -129,7 +184,7 @@
                     <div class="rounded mb-8">
                         <iframe width="750" height="470" src="{{ $course->trailer_url }}" title="YouTube video player"
                             frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowfullscreen></iframe>
                     </div>
 
@@ -266,12 +321,13 @@
                     <div class="d-flex align-items-center mb-6">
                         <div class="d-inline-block rounded-circle border me-6 p-2">
                             <div class="avatar avatar-size-120">
-                                <img src="{{ asset('assets/img/avatars/avatar-2.jpg') }}" alt="..."
+                                <img src="{{ $course->user->profile->avatar }}" alt="..."
                                     class="avatar-img rounded-circle">
                             </div>
                         </div>
                         <div class="media-body">
-                            <h4 class="mb-0">Lauren Handerson</h4>
+                            <h4 class="mb-0"> {{ $course->user->profile->full_name }} ({{ $course->user->username }})
+                            </h4>
                             <span>iOS Developer & UI Designer</span>
                         </div>
                     </div>
@@ -338,14 +394,8 @@
                         </div>
                     </div>
 
-                    <p class="mb-6 line-height-md">I am a UI/UX designer and an iOS developer with having almost six
-                        years of experience in application development and also ten years of graphic design and User
-                        Interface design.</p>
-                    <p class="mb-6 line-height-md">My passion is helping people to learn new skills in a short-term
-                        course and achieve their goals. I've been designing for more than ten years and developing iOS
-                        apps for four years. It's my honor if I could help you learn to program in a simple word. I
-                        currently am teaching iOS 13, Swift 5, ARKit 3, Sketch 5, Illustrator, Photoshop, Cinema 4D,
-                        HTML, CSS, JavaScript, etc.</p>
+                    <p class="mb-6 line-height-md">{{ $course->user->profile->description }}</p>
+
                 </div>
 
                 <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">

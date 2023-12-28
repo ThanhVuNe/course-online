@@ -66,4 +66,11 @@ interface CourseRepositoryInterface extends RepositoryInterface
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function recommnedCourse($categoryIds, $language, $level);
+
+     /**
+     * @param int $id
+     * 
+     * @return Model
+     */
+    public function getCourse($id);
 }
