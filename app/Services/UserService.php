@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use AmazonS3;
 use App\Enums\ActiveUserEnum;
 use App\Enums\UserRoleEnum;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserService

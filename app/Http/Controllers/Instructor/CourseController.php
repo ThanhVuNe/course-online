@@ -115,7 +115,7 @@ class CourseController extends Controller
 
     public function getStudents(int $id): View
     {
-        $enrollments = $this->courseService->getStudents($id);
+        $enrollments = $this->courseService->getUserProgress($id);
         // dd($students);
         return view('instructor.course.students', compact('enrollments'));
     }

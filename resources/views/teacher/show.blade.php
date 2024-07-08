@@ -10,25 +10,25 @@
                 <!-- Social -->
                 <ul class="list-unstyled list-inline list-social mb-4 mb-md-0 mx-lg-4 order-1 order-md-0 font-size-sm">
                     <li class="list-inline-item list-social-item">
-                        <a href="#"
+                        <a href="{{ $instructor->teacher_profile?->facebook }}"
                             class="text-secondary w-36 h-36 shadow-dark-hover d-flex align-items-center justify-content-center rounded-circle border-hover">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </li>
                     <li class="list-inline-item list-social-item">
-                        <a href="#"
+                        <a href="{{ $instructor->teacher_profile?->twitter }}"
                             class="text-secondary w-36 h-36 shadow-dark-hover d-flex align-items-center justify-content-center rounded-circle border-hover">
                             <i class="fab fa-twitter"></i>
                         </a>
                     </li>
                     <li class="list-inline-item list-social-item">
-                        <a href="#"
+                        <a href="{{ $instructor->teacher_profile?->instagram }}"
                             class="text-secondary w-36 h-36 shadow-dark-hover d-flex align-items-center justify-content-center rounded-circle border-hover">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </li>
                     <li class="list-inline-item list-social-item">
-                        <a href="#"
+                        <a href="{{ $instructor->teacher_profile?->likedin }}"
                             class="text-secondary w-36 h-36 shadow-dark-hover d-flex align-items-center justify-content-center rounded-circle border-hover">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
@@ -65,8 +65,8 @@
                     <span class="ms-3">Report this author</span>
                 </a>
             </div>
-            <h1 class="text-center mb-1">{{ $instructor->profile->full_name }}({{ $instructor->username }})</h1>
-            <div class="text-center mb-7">UI Designer</div>
+            <h1 class="text-center mb-1">{{ $instructor->profile?->full_name }}({{ $instructor->username }})</h1>
+            <div class="text-center mb-7">{{ $instructor->teacher_profile?->skill }}</div>
 
             <div class="row mb-7 justify-content-center align-items-center">
                 <div class="col-12 col-md-auto mb-3 mb-md-0">
@@ -231,7 +231,7 @@
             </div>
 
             <div class="text-center mb-7">
-                <a href="#" class="btn btn-teal btn-wide text-white">SEND MESSAGE</a>
+                <button class="btn btn-teal btn-wide text-white">{{ $instructor->teacher_profile?->phone }}</button>
             </div>
         </div>
 
@@ -251,35 +251,7 @@
                 </ul>
 
                 <h3 class="">Bio</h3>
-                <p class="mb-6 line-height-md">Do you want to become a UI/UX designer but you don't know where to start?
-                    This course will allow you to develop your user interface design skills and you can add UI designer
-                    to your CV and start getting clients for your skills.</p>
-                <p class="mb-6 line-height-md">Hi everyone. I'm Arash and I'm a UI/UX designer. In this course, I will
-                    help you learn and master Figma app comprehensively from scratch. Figma is an innovative and
-                    brilliant tool for User Interface design. It's used by everyone from entrepreneurs and start-ups to
-                    Apple, Airbnb, Facebook, etc.</p>
-                <p class="collapse mb-6 line-height-md" id="readcollapseExample">Anim pariatur cliche reprehenderit,
-                    enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft
-                    beer labore wes anderson cred nesciunt sapiente I will help you learn and master Figma app
-                    comprehensively from scratch. Figma is an innovative and brilliant tool for User Interface design.
-                    It's used by everyone from entrepreneurs ea proident.</p>
-                <a class="text-teal read-more h6 d-inline-block" data-bs-toggle="collapse" href="#readcollapseExample"
-                    role="button" aria-expanded="false" aria-controls="readcollapseExample">
-                    <span class="d-inline-flex align-items-center more">
-                        Read More
-                        <span
-                            class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
-                            <i class="fas fa-plus font-size-10 text-white"></i>
-                        </span>
-                    </span>
-                    <span class="d-inline-flex align-items-center less">
-                        Read Less
-                        <span
-                            class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
-                            <i class="fas fa-minus font-size-10 text-white"></i>
-                        </span>
-                    </span>
-                </a>
+                <p class="mb-6 line-height-md">{{ $instructor->teacher_profile?->bio }}.</p>
             </div>
 
             <div id="Curriculum" class="mb-8">

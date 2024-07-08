@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('comments', CommentController::class)->only(['update', 'destroy']);
+
+Route::apiResource('courses', CourseController::class);
+Route::apiResource('categories', CategoryController::class);
+
+Route::post('login', [AuthController::class, 'login']);

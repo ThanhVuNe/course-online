@@ -1,6 +1,13 @@
-const videoInput = document.getElementById('lessonUrl');
+$(document).ready(function () {
+    $('#btnFinish').attr('aria-disabled', 'true');
+    $('#btnFinish').css('pointer-events', 'none');
+    $('#btnFinish').css('opacity', '0.3');
+})
+
+const fileInput = document.getElementById('lessonUrl');
 const uploadBtn = document.getElementById("uploadS3");
 const topicId = document.getElementById("topicId").value;
+var lessonDuration = '';
 
 function secondsToHms(d) {
     d = Number(d);
@@ -10,61 +17,92 @@ function secondsToHms(d) {
     return h > 0 ? `${h}:${m}:${s}` : m > 0 ? `${m}:${s}` : `${s}`;
 }
 
-videoInput.addEventListener("change", function (event) {
-    const videoFile = event.target.files[0];
-    const video = document.createElement('video');
-    video.preload = 'metadata';
-    video.onloadedmetadata = function () {
-        window.URL.revokeObjectURL(video.src);
-        var duration = video.duration;
-        document.getElementById("timeDurationFormat").value = secondsToHms(duration);
-        document.getElementById("timeDuration").value = duration;
-    }
-    if (videoFile) {
-        const readerVideo = new FileReader();
-        readerVideo.readAsDataURL(videoFile);
-        readerVideo.onload = function (e) {
-            video.src = URL.createObjectURL(videoFile);
+function isVideo(file) {
+    // List of video MIME types
+    const videoMimeTypes = [
+        'video/mp4',
+        'video/webm',
+        'video/ogg'
+        // Add more video MIME types if needed
+    ];
+
+    // Check if the file's MIME type is in the list of video MIME types
+    return videoMimeTypes.includes(file.type);
+}
+fileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+
+    if(isVideo(file)) {
+        const videoFile = file;
+        const video = document.createElement('video');
+        video.preload = 'metadata';
+        video.onloadedmetadata = function () {
+            window.URL.revokeObjectURL(video.src);
+            var duration = video.duration;
+            document.getElementById("timeDurationFormat").value = secondsToHms(duration);
+            document.getElementById("timeDuration").value = duration;
+            lessonDuration =  secondsToHms(duration);
+        }
+        if (videoFile) {
+            const readerVideo = new FileReader();
+            readerVideo.readAsDataURL(videoFile);
+            readerVideo.onload = function (e) {
+                video.src = URL.createObjectURL(videoFile);
+            }
         }
     }
+    else {
+        const file = event.target.files[0];
+
+        document.getElementById("timeDurationFormat").value = '';
+        document.getElementById("timeDuration").value = '';
+    }
+
 });
 
-
 uploadBtn.addEventListener("click", async () => {
-    var formId = document.querySelector("#formCreate");
-    var title = document.getElementById("title").value;
-    var timeDuration = document.getElementById("timeDuration").value;
-    var baseUrl = formId.dataset.url;
+    const formId = document.querySelector("#formCreate");
+    const title = document.getElementById("title").value;
+    const baseUrl = formId.dataset.url;
 
     try {
         const response = await axios.post(baseUrl, {
             'title': title,
-            'lesson_duration': timeDuration,
             'topic_id': topicId,
         });
         const lessonId = response.data.lessonId;
-        console.log(lessonId);
 
-        const selectVideo = videoInput.files[0];
+        const file = fileInput.files[0];
+        console.log(lessonId);
         const path = window.location.origin + "/instructor/lessons/getUploadUrl/" + lessonId;
-        console.log(path);
         const putUrl = window.location.origin + '/instructor/lessons/updateUrl/' + lessonId;
 
-        if (selectVideo) {
+        if (file) {
             $(".btn-close").hide();
             $("#closeModal").hide();
             $("#modalNotification").modal("show");
             try {
-                const responseUrlUpload = await axios.get(path);
-                const urlVideo = responseUrlUpload.data.urlVideo;
 
-                await axios.put(urlVideo, selectVideo, {
+                let fileType = file.type;
+
+                const responseUrlUpload = await axios.get(path, {
+                    params: {
+                        fileType: fileType
+                    }
+                });
+                const uploadUrl = responseUrlUpload.data.urlVideo;
+                console.log(file.type);
+                console.log(uploadUrl);
+                await axios.put(uploadUrl, file, {
                     headers: {
-                        'Content-Type': 'video/mp4'
+                        'Content-Type': fileType // Set the Content-Type header based on the file type
                     }
                 });
 
-                await axios.put(putUrl)
+                await axios.put(putUrl, {
+                    fileType: fileType,
+                    lessonDuration: lessonDuration
+                })
                     .then(function (response) {
                         $(".modal-body").text(response.data.message);
                         $(".btn-close").show();
@@ -73,13 +111,15 @@ uploadBtn.addEventListener("click", async () => {
 
                 $('#uploadS3').css('pointer-events', 'none');
                 $('#uploadS3').css('opacity', '0.3');
+                $('#btnFinish').css('opacity', '1');
                 $('#btnFinish').css('pointer-events', 'auto');
             } catch (error) {
-                $(".modal-body").text("Upload files was failed!");
+                console.log(error);
+                $(".modal-body").text("Upload failed!");
                 $("#modalNotification").modal("show");
             }
         } else {
-            $(".modal-body").text("Please chosen the files!");
+            $(".modal-body").text("Please select a file!");
             $("#modalNotification").modal("show");
         }
     } catch (error) {

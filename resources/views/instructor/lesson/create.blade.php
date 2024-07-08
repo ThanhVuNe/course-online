@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/instructor/course.css') }}">
 @endsection.
 @section('script')
-    <script src="{{ asset('assets/js/toast.js') }}"></script>
-    <script src="{{ asset('assets/js/instructor/create.lesson.js') }}"></script>
-    <script src="{{ asset('assets/js/instructor/change.image.lesson.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/toast.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/instructor/create.lesson.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/instructor/change.image.lesson.js') }}"></script>
 @endsection
 @section('content')
     <main id="main" class="main">
@@ -74,7 +74,7 @@
                                 </div>
                                 <input type="hidden" name="topic_id" value="{{ $topicId }}" id="topicId">
                                 <div class="row mb-3">
-                                    <label for="inputNumber" class="col-sm-2 col-form-label fw-bold">Trailer Upload <span
+                                    <label for="inputNumber" class="col-sm-2 col-form-label fw-bold">Video Upload <span
                                             class="text-alizarin fst-italic">*</span></label>
                                     <div class="col-sm-10 row change-img">
                                         <div class="col-sm-6 video-change">
@@ -83,13 +83,13 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <input id="lessonUrl" type="file" name="lesson_url" class="form-control"
-                                                onchange="readURL(this);" accept="video/*">
+                                                onchange="readURL(this);" accept="video/*,application/pdf">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="offset-sm-10 col-sm-2">
-                                        <button type="button" id="uploadS3" class="btn btn-success">UPLOAD</button>
+                                    <div class="offset-sm-8 col-sm-2 d-flex">
+                                        <button type="button" id="uploadS3" class="btn btn-success mx-2">UPLOAD</button>
                                         <a href="{{ route('instructor.courses.curriculum.show', ['courseId' => $courseId]) }}" id="btnFinish" class="btn btn-primary">FINISH</a>
                                     </div>
                                 </div>

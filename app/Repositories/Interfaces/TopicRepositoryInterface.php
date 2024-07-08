@@ -11,5 +11,7 @@ interface TopicRepositoryInterface extends RepositoryInterface
      *
      * @return mixed
      */
-    public function getTopicsWithLessons($courseId);
+    public function getTopicsWithLessons($courseId, $userId);
+
+    public function getQuestionsByTopic($topicId);
 }

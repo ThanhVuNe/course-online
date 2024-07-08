@@ -29,4 +29,8 @@ interface EnrollmentRepositoryInterface extends RepositoryInterface
      * @return Collection
      */
     public function getStudents($id);
+
+    public function getInstructorCoursesRecent($id): LengthAwarePaginator;
+
+    public function getUserProgress($courseId);
 }

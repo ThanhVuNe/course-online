@@ -39,7 +39,7 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileInstructorRequest $request)
     {
-        if($this->teacherProfileService->update($request->validated())){
+        if($this->teacherProfileService->updateOrCreate($request->validated())){
             session()->flash('message', __('messages.instructor.success.profile.update'));
             return redirect()->route('instructor.profile.index');
         }

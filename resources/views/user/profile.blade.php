@@ -27,7 +27,7 @@
         <button type="button" class="btn-close" aria-label="Close"></button>
     </div>
 
-    <div class="container py-4 bg-white-ice">
+    <div class="container py-4 bg-white-ice" style="margin-top: 100px;">
         <div class="row">
             @include('user.sidebar')
             <div class="col-md-7 col-xl-8">
@@ -168,6 +168,7 @@
                         $(".notification-toast").hide();
                     }, 3000);
                 } catch (error) {
+                    console.log(error);
                     $(".messageNotice").html("Error uploading image");
                     $(".toast-error").show();
                     setTimeout(() => {

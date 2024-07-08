@@ -18,6 +18,8 @@ interface CourseRepositoryInterface extends RepositoryInterface
      */
     public function getCourses($request): LengthAwarePaginator;
 
+    public function getCourseLatest();
+
     /**
      * Sum totalStudent in course by instructor
      *
@@ -46,6 +48,8 @@ interface CourseRepositoryInterface extends RepositoryInterface
      * @return LengthAwarePaginator<Model>
      */
     public function getInstructorCourses($id): LengthAwarePaginator;
+
+    public function getInstructorCoursesRecent($id): LengthAwarePaginator;
 
     /**
      * @param array $courseIds

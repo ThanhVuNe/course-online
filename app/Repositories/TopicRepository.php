@@ -19,8 +19,21 @@ class TopicRepository extends BaseRepository implements TopicRepositoryInterface
      *
      * @return Collection
      */
-    public function getTopicsWithLessons($courseId)
+    public function getTopicsWithLessons($courseId, $userId)
     {
-        return $this->model->with('lessons')->where('course_id', $courseId)->get();
+        return $this->model
+        ->with(['lessons.processing' => function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        },'results' => function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        }])
+        ->where('course_id', $courseId)
+        ->get();
+    }
+
+    public function getQuestionsByTopic($topicId) {
+        return $this->model->with(['questions.answers']) 
+            ->where('id', $topicId)
+            ->first();
     }
 }

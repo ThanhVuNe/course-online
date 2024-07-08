@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Services\CartService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -27,6 +28,10 @@ class CheckoutController extends Controller
     {
         $carts = Session::get('cart');
 
+        if(!$carts) {
+            return redirect()->route('carts');
+        }
+    
         return view('checkout.index', compact('carts'));
     }
 

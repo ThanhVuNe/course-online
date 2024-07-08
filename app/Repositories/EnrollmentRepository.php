@@ -23,8 +23,65 @@ class EnrollmentRepository extends BaseRepository implements EnrollmentRepositor
     public function getMyCoures($userId): LengthAwarePaginator
     {
         /** @phpstan-ignore-next-line */
-        return $this->model->with('course.category:id,name')
+        $enrollments = $this->model->with('course.category:id,name')
             ->owner($userId)->paginate(self::PAGINATE_DEFAULT);
+        foreach ($enrollments as $enrollment) {
+            $completedLessonsCount = 0;
+            $totalLessonsCount = 0;
+
+            foreach ($enrollment->course->topics as $topic) {
+                foreach ($topic->lessons as $lesson) {
+                    // Check if the lesson is completed by the user
+                    if ($lesson->processing->where('user_id', $userId)->count() > 0) {
+                        $completedLessonsCount++;
+                    }
+                    $totalLessonsCount++;
+                }
+            }
+
+            // Calculate the percentage progress
+            if ($totalLessonsCount > 0) {
+                $progress = ($completedLessonsCount / $totalLessonsCount) * 100;
+            } else {
+                $progress = 0; // Handle case where there are no lessons in the course
+            }
+
+            $enrollment->course->progress = $progress;
+        }
+        return $enrollments;
+    }
+
+    public function getUserProgress($courseId) {
+        $enrollments = $this->model->where('course_id', $courseId)
+            ->with('user')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        foreach ($enrollments as $enrollment) {
+            $completedLessonsCount = 0;
+            $totalLessonsCount = 0;
+    
+            foreach ($enrollment->course->topics as $topic) {
+                foreach ($topic->lessons as $lesson) {
+                        // Check if the lesson is completed by the user
+                    if ($lesson->processing->where('user_id', $enrollment->user_id)->count() > 0) {
+                          $completedLessonsCount++;
+                    }
+                        $totalLessonsCount++;
+                    }
+                }
+    
+                // Calculate the percentage progress
+                if ($totalLessonsCount > 0) {
+                    $progress = ($completedLessonsCount / $totalLessonsCount) * 100;
+                } else {
+                    $progress = 0; // Handle case where there are no lessons in the course
+                }
+    
+                $enrollment->progress = $progress;
+            }
+
+            return $enrollments;
     }
 
     /**
@@ -47,5 +104,20 @@ class EnrollmentRepository extends BaseRepository implements EnrollmentRepositor
     public function getStudents($id)
     {
         return $this->model->where('course_id', $id)->with(['user.profile'])->get();
+    }
+
+
+    /**
+     * @param int $id
+     * @return LengthAwarePaginator<Model>
+     */
+    public function getInstructorCoursesRecent($id): LengthAwarePaginator
+    {
+        return $this->model->whereHas('course', function ($query) use ($id) {
+            $query->where('instructor_id', $id);
+        })
+        ->with('user')
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
     }
 }

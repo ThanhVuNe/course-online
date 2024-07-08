@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,5 +31,11 @@ class Category extends Model
     public function survey()
     {
         return $this->belongsTo(Survey::class, 'category_id', 'id');
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        $carbonDate = new Carbon($date);
+        return $carbonDate->format('Y-m-d H:i:s');
     }
 }

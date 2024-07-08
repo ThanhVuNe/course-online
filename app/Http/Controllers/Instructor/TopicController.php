@@ -40,4 +40,10 @@ class TopicController extends Controller
 
         return redirect()->back();
     }
+
+    public function questions($courseId, $topicId) {
+        $topic = $this->topicService->getQuestions($topicId);
+        // dd($topic);
+        return view('instructor.question.index', compact('topic', 'courseId'));
+    }
 }

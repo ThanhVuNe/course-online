@@ -1,11 +1,11 @@
 @include('layouts.modal')
 <!-- NAVBAR
 ================================================== -->
-<header class="navbar navbar-expand-xl navbar-light bg-white border-bottom py-2 py-xl-4">
+<header style="position: fixed; top: 0; left:0; right:0" class="navbar navbar-expand-xl navbar-light bg-white border-bottom py-2 py-xl-4">
     <div class="container-fluid">
 
         <!-- Brand -->
-        <a class="navbar-brand me-0" href="">
+        <a class="navbar-brand me-0" href="{{ route('home') }}">
             <img src="{{ asset('assets/img/brand.svg') }}" class="navbar-brand-img" alt="...">
         </a>
 
@@ -37,32 +37,16 @@
                     </li>
                     <li class="dropdown-item dropright">
                         <a class="dropdown-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                            Design
+                            Categories
                         </a>
 
                         <div class="dropdown-menu ps-3 top-0 pe-0 py-0 shadow-none bg-transparent">
                             <div class="dropdown-menu-md bg-primary rounded dropdown-menu-inner">
-                                <a class="dropdown-item" href="#">
-                                    All Business
+                                @foreach ($categories as $category)
+                                <a class="dropdown-item" href="{{ route('courses.index', ['category[]' => $category->id]) }}">
+                                    {{ $category->name }}
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    Finance
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Entrepreneurship
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Communications
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Management
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Sales
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    Operations
-                                </a>
+                                @endforeach
                             </div>
                         </div>
                     </li>

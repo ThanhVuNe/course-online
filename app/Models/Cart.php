@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cart extends Model
 {
-    use SoftDeletes;
     use HasFactory;
 
     protected $fillable = [

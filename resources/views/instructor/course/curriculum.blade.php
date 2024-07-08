@@ -1,15 +1,13 @@
 @extends('instructor.layouts.app')
-@section('title', 'Create New Course')
+@section('title', 'Manage Course')
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/css/instructor/course.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/toast.css') }}">
 @endsection.
 @section('script')
-    <script type="module" src="{{ asset('assets/js/instructor/create.course.js') }}"></script>
-    <script src="{{ asset('assets/js/instructor/change.image.js') }}"></script>
-    <script src="{{ asset('assets/js/theme.min.js') }}"></script>
-    <script src="{{ asset('assets/js/toast.css') }}"></script>
+    <script type="module" src="{{ asset('assets/js/theme.min.js') }}"></script>
+    <script src="{{ asset('assets/js/toast.js') }}"></script>
 @endsection
 @section('content')
     <main id="main" class="main">
@@ -25,7 +23,7 @@
                                     <div class="border rounded shadow mb-6 overflow-hidden">
 
                                         <div class="d-flex align-items-center" id="curriculumheading{{ $key }}">
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <h5 class="mb-0 w-100">
                                                     <button
                                                         class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one"
@@ -51,7 +49,14 @@
                                                         </span> {{ ucfirst($topic->name) }} </button>
                                                 </h5>
                                             </div>
-                                            <div class="col-lg-2 mx-6">
+                                            <div class="col-lg-2 mx-2">
+                                                <a class="btn btn-primary btn-sm btn-block mx-3"
+                                                    style="background-color:#8685d1" type="button" name="button"
+                                                    href="{{ route('instructor.topic.questions', ['courseId' => $course->id  ,'topicId' => $topic->id]) }}">
+                                                 Questions
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-2 mx-2">
                                                 <a class="btn btn-primary btn-sm btn-block mx-3"
                                                     style="background-color:#8685d1" type="button" name="button"
                                                     href="{{ route('instructor.courses.lessons.create', ['topicId' => $topic->id, 'courseId' => $course->id]) }}">Add
@@ -95,10 +100,10 @@
 
                                                     <div
                                                         class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
-                                                        <div
+                                                        {{-- <div
                                                             class="badge text-dark-70 bg-orange-40 me-5 font-size-sm fw-normal py-2">
                                                             3
-                                                            question</div>
+                                                            question</div> --}}
                                                         <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">
                                                             {{ $lesson->lesson_duration }}</div>
                                                         <a href="#" class="text-secondary d-flex">

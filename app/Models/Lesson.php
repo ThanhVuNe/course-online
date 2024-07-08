@@ -43,6 +43,14 @@ class Lesson extends Model
         return $this->belongsTo(Topic::class, 'topic_id', 'id');
     }
 
+    /**
+     * @return HasMany<Processing>
+     */
+    public function processing(): HasMany
+    {
+        return $this->hasMany(Processing::class, 'lesson_id');
+    }
+
      /**
      * poster get from s3
      * @param string $value

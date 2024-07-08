@@ -12,7 +12,7 @@
                 data-toggle="list" href="{{ route('users.register') }}" role="tab">
                 Register Instructor
             </a>
-            <a class="list-group-item list-group-item-action px-3" data-toggle="list" href="#" role="tab">
+            {{-- <a class="list-group-item list-group-item-action px-3" data-toggle="list" href="#" role="tab">
                 Password(To do)
             </a>
             <a class="list-group-item list-group-item-action px-3" data-toggle="list" href="#" role="tab">
@@ -20,7 +20,7 @@
             </a>
             <a class="list-group-item list-group-item-action px-3" data-toggle="list" href="#" role="tab">
                 Delete account(To do)
-            </a>
+            </a> --}}
         </div>
     </div>
 </div>

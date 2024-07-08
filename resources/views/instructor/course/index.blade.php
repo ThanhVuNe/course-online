@@ -1,5 +1,5 @@
 @extends('instructor.layouts.app')
-
+@section('title', 'Your Courses')
 @section('content')
     <main id="main" class="main">
         <div class="pagetitle">
@@ -35,7 +35,7 @@
                                         <th scope="row">{{ $course->id }}</th>
                                         <td style = "text-align: start ">{{ $course->title }}</td>
                                         <td>{{ data_get($course, 'category.name') }}</td>
-                                        <td>{{ $course->price }} $</td>
+                                        <td style="width: 100px;">{{ $course->price }} $</td>
                                         <td>{{ $course->average_rating }}</td>
                                         <td> <a href="{{ route('instructor.courses.students', ['courseId' => $course->id]) }}">See {{ $course->total_students }} students</a></td>
                                         <td>

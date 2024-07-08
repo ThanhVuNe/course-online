@@ -56,9 +56,16 @@ class CourseRepository extends BaseRepository implements CourseRepositoryInterfa
             $courses->orderBy($sortField, $sortType);
         }
 
-        $courses->orderBy('id', 'ASC');
+        $courses->orderBy('created_at', 'DESC');
 
         return $courses->paginate(self::PAGESIZE);
+    }
+
+    public function getCourseLatest()
+    {
+        return $this->model->with(['category','user.profile'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(6);
     }
 
     /**
@@ -68,6 +75,17 @@ class CourseRepository extends BaseRepository implements CourseRepositoryInterfa
     public function getInstructorCourses($id): LengthAwarePaginator
     {
         return $this->model->with('category:id,name')->where('instructor_id', $id)->paginate(self::PAGESIZE);
+    }
+
+    /**
+     * @param int $id
+     * @return LengthAwarePaginator<Model>
+     */
+    public function getInstructorCoursesRecent($id): LengthAwarePaginator
+    {
+        return $this->model->with('enrollments.user')
+            ->where('instructor_id', $id)
+            ->paginate(self::PAGESIZE);
     }
 
     /**
@@ -99,8 +117,7 @@ class CourseRepository extends BaseRepository implements CourseRepositoryInterfa
             ->when(isset($courseId), function ($query) use ($courseId) {
                 return $query->where('courses.id', $courseId);
             })
-            ->where('e.created_at', '>=', $startDate)
-            ->where('e.created_at', '<=', $endDate)
+            ->whereBetween('e.created_at', [$startDate, $endDate])
             ->groupBy('enrollment_date')
             ->orderBy('enrollment_date')->get();
     }

@@ -50,7 +50,7 @@
         </div>
         <input type="hidden" name="selected_items" id="selectedItemsInput" value="">
     </form>
-    <header class="py-8 py-md-10" style="background-image: none;">
+    <header class="py-8 py-md-10" style="background-image: none; margin-top: 100px;">
         <div class="container text-center py-xl-2">
             <h1 class="display-4 fw-semi-bold mb-0"> {{ __('shop_cart') }}</h1>
             <nav aria-label="breadcrumb">

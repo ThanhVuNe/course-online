@@ -26,13 +26,6 @@
 
                                 <!-- Footer -->
                                 <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
-                                    <a href="instructors-single.html" class="">
-                                        <div
-                                            class="avatar avatar-xl sk-fade-right badge-float position-absolute top-0 right-0 mt-n6 me-5 rounded-circle shadow border border-white border-w-lg">
-                                            <img src="{{ asset('assets/img/avatars/avatar-2.jpg') }}" alt="..."
-                                                class="avatar-img rounded-circle">
-                                        </div>
-                                    </a>
 
                                     <!-- Preheading -->
                                     <a href="{{ route('courses.show', ['course' => $course->id]) }}"><span

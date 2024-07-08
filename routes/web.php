@@ -10,6 +10,7 @@ use App\Http\Controllers\Instructor\CourseController as InstructorCourseControll
 use App\Http\Controllers\Instructor\HomeController as InstructorHomeController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
 use App\Http\Controllers\Instructor\ProfileController as InstructorProfileController;
+use App\Http\Controllers\Instructor\QuestionController;
 use App\Http\Controllers\Instructor\TopicController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LoginController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\VNPayController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\Instructor\RegisterController as InstructorRegisterController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\TopicController as ControllersTopicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +71,14 @@ Route::middleware(['auth'])->group(function () {
     //admin and instructor can access
     Route::middleware(['instructor'])->group(function () {
         Route::prefix('instructor')->name('instructor.')->group(function () {
+
+            Route::get('course/{courseId}/topic/{topicId}/questions', [TopicController::class, 'questions'])->name('topic.questions');
+            Route::get('topic/{topicId}/questions/create', [QuestionController::class, 'create'])->name('question.create');
+            Route::post('topic/{topicId}/questions/create', [QuestionController::class, 'store'])->name('question.create');
+            
+            Route::get('topic/{questionId}/answers', [QuestionController::class, 'createAnswer'])->name('topic.answers.create');
+
+
             Route::get('/', [InstructorHomeController::class, 'home'])->name('home');
 
             Route::resource('profile', InstructorProfileController::class);
@@ -123,6 +133,10 @@ Route::resource('orders', OrderController::class)->only(['index', 'store']);
 
 Route::prefix('courses')->name('courses.')->group(function () {
     Route::get('{courseId}/lessons/{lessonId}', [LessonController::class, 'show'])->name('lessons.show')->middleware('verifyUserAccessCourse');
+    Route::get('{courseId}/topic/{topicId}/questions', [ControllersTopicController::class, 'showQuestion'])->name('topic.questions')->middleware('verifyUserAccessCourse');
+    Route::post('{courseId}/topic/{topicId}/questions', [ControllersTopicController::class, 'submitQuestion'])->name('topic.submit.questions')->middleware('verifyUserAccessCourse');;
+    Route::get('{courseId}/topic/{topicId}/results', [ControllersTopicController::class, 'results'])->name('topic.results')->middleware('verifyUserAccessCourse');;
+    Route::post('{courseId}/lessons/{lessonId}/complete', [LessonController::class, 'completedLesson'])->name('lesson.complete')->middleware('verifyUserAccessCourse');;
 });
 
 Route::prefix('teacher')->name('teacher.')->group(function () {

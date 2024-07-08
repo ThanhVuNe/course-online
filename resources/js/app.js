@@ -35,3 +35,9 @@ import 'imagesloaded/imagesloaded.pkgd.min.js';
 // import 'parallax-js/dist/parallax.min.js';
 // import 'quill/dist/quill.min.js';
 // import 'smooth-scroll/dist/smooth-scroll.min.js';
+import { Chart } from 'chart.js/auto';
+window.Chart = Chart;
+
+import flickityFade from 'flickity-fade';
+window.flickityFade = flickityFade;
+

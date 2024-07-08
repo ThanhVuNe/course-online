@@ -25,13 +25,14 @@ class VerifyUserAccessCourse
         }
 
         // Validate course is active
-        $course = Course::where('id', $courseId)->where('is_active', true)->first();
+        // $course = Course::where('id', $courseId)->where('is_active', true)->first();
 
-        if (!$course) {
-            return redirect()->route('courses.show', ['course' => $courseId]);
-        }
+        // if (!$course) {
+        //     return redirect()->route('courses.show', ['course' => $courseId]);
+        // }
 
         // Verify whether the user has participated in the course or not
+        // dd(auth()->id());
         $enrollment = Enrollment::where('course_id', $courseId)
             ->where('user_id', auth()->id())
             ->first();

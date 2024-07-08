@@ -7,6 +7,7 @@ use App\Services\LessonService;
 use Illuminate\Http\Request;
 use AmazonS3;
 use App\Http\Requests\StoreLessonRequest;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Contracts\View\View;
 
 class LessonController extends Controller
@@ -52,13 +53,20 @@ class LessonController extends Controller
      * @param int $lessonId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getUploadUrl($lessonId)
+    public function getUploadUrl(Request $request, $lessonId)
     {
         $userId = auth()->id();
-        $lesson = $this->lessonService->findLesson($lessonId);
+        $lesson = $this->lessonService->findLessonInstructor($lessonId);
         $topicId = $lesson->topic_id;
-        $pathVideo = "instructor/{$userId}/topic_{$topicId}/lesson_{$lessonId}.mp4";
+        $fileType = $request->input('fileType');
+        // dd($fileType);
+        if (str_contains($fileType, 'video')) {
+            $fileType = 'mp4';
+        } else if ($fileType === 'application/pdf') {
+            $fileType = 'pdf';
+        }
 
+        $pathVideo = "instructor/{$userId}/topic_{$topicId}/lesson_{$lessonId}.{$fileType}";
         return response()->json([
             'urlVideo' => AmazonS3::getPreSignedUploadUrl($pathVideo)
         ]);
@@ -68,13 +76,31 @@ class LessonController extends Controller
      * @param int $lessonId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateUrl($lessonId)
+    public function updateUrl(Request $request, $lessonId)
     {
+        $fileType = $request->input('fileType');
+        $lessonDuration = $request->input('lessonDuration');
+        if (strpos($lessonDuration, ':') == false) {
+            $lessonDuration = '0'.$lessonDuration;
+        } 
+        if($lessonDuration == '') {
+            $lessonDuration = null;
+        }
         $data = [];
         $userId = auth()->id();
-        $lesson = $this->lessonService->findLesson($lessonId);
+        $lesson = $this->lessonService->findLessonInstructor($lessonId);
         $topicId = $lesson->topic_id;
-        $data['lesson_url'] = "instructor/{$userId}/topic_{$topicId}/lesson_{$lessonId}.mp4";
+        
+        if (str_contains($fileType, 'video')) {
+            $fileType = 'mp4';
+        } else if ($fileType === 'application/pdf') {
+            $fileType = 'pdf';
+        } 
+
+        $data['lesson_url'] = "instructor/{$userId}/topic_{$topicId}/lesson_{$lessonId}.{$fileType}";
+        $data['file_type'] = $fileType;
+        $data['lesson_duration'] = $lessonDuration;
+
         $this->lessonService->update($lessonId, $data);
 
         return response()->json(['message' => __('messages.file.success.upload')]);

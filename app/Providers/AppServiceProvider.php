@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\UserRoleEnum;
 use App\Helpers\AmazonS3;
+use App\Repositories\AnswerRepository;
 use App\Repositories\CourseRepository;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\CartRepository;
@@ -12,6 +13,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\InstructorRepository;
+use App\Repositories\Interfaces\AnswerRepositoryInterface;
 use App\Repositories\Interfaces\CartRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
@@ -20,8 +22,11 @@ use App\Repositories\Interfaces\FavoriteRepositoryInterface;
 use App\Repositories\Interfaces\InstructorRepositoryInterface;
 use App\Repositories\Interfaces\LessonRepositoryInterface;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Repositories\Interfaces\ProcessingRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
+use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\ResetPasswordRepositoryInterface;
+use App\Repositories\Interfaces\ResultRepositoryInterface;
 use App\Repositories\Interfaces\ReviewRepositoryInterface;
 use App\Repositories\Interfaces\SurveyRepositoryInterface;
 use App\Repositories\Interfaces\TeacherProfileRepositoryInterface;
@@ -29,8 +34,11 @@ use App\Repositories\Interfaces\TopicRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\LessonRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\ProcessingRepository;
 use App\Repositories\ProfileRepository;
+use App\Repositories\QuestionRepository;
 use App\Repositories\ResetPasswordRepository;
+use App\Repositories\ResultRepository;
 use App\Repositories\ReviewRepository;
 use App\Repositories\SurveyRepository;
 use App\Repositories\TeacherProfileRepository;
@@ -127,6 +135,26 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             TeacherProfileRepositoryInterface::class,
             TeacherProfileRepository::class
+        );
+
+        $this->app->singleton(
+            ProcessingRepositoryInterface::class,
+            ProcessingRepository::class
+        );
+
+        $this->app->singleton(
+            AnswerRepositoryInterface::class,
+            AnswerRepository::class
+        );
+
+        $this->app->singleton(
+            ResultRepositoryInterface::class,
+            ResultRepository::class
+        );
+
+        $this->app->singleton(
+            QuestionRepositoryInterface::class,
+            QuestionRepository::class
         );
     }
 

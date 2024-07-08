@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('#btnFinish').attr('aria-disabled', 'true');
     $('#btnFinish').css('pointer-events', 'none');
+    $('#btnFinish').css('opacity', '0.3');
 })
 
 const imageInput = document.getElementById('image');
@@ -63,6 +64,7 @@ uploadBtn.addEventListener("click", async () => {
             $('#uploadS3').css('pointer-events', 'none');
             $('#uploadS3').css('opacity', '0.3');
             $('#btnFinish').css('pointer-events', 'auto');
+            $('#btnFinish').css('opacity', '1.0');
         } catch (error) {
             $(".modal-body").text("Upload files was failed!");
             $("#modalNotification").modal("show");

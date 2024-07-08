@@ -24,12 +24,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     @yield('style')
     <title> @yield('title') </title>
+    <style>
+          .progress {
+            height: 5px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background-color: rgb(48, 75, 172);
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body class="bg-dark">
     @yield('modal')
     <!-- NAVBAR ================================================== -->
-    <header class="bg-portgore py-3">
+    <header class="bg-portgore py-3 position-fixed" style="top: 0; right: 0; left: 0; z-index: 1000">
         <div class="px-5 px-lg-8 w-100">
             <div class="d-md-flex align-items-center">
                 <!-- Brand -->
@@ -40,10 +53,30 @@
                 <!-- Lesson Title -->
                 <div class="mx-auto mb-5 mb-md-0">
                     <h3 class="mb-0 line-clamp-2 text-white">
-                        {{ $lesson['title'] }}
+                        {{ $course->title }}
                     </h3>
-                </div>
+                    @php
+                        $totalLesson = 0;
+                        $totalProgress = 0;
+                        $progress=0;
+                        foreach ($topics as $topic) {
+                            foreach ($topic->lessons as $less) {
+                                if($less->processing->isNotEmpty()){
+                                    $totalProgress++;
+                                }
+                                $totalLesson++;
+                            }
+                        }
 
+                        if ($totalLesson > 0) {
+                            $progress = ($totalProgress / $totalLesson) * 100;
+                        }
+                    @endphp
+                    <div class="progress m-0">
+                        <div class="progress-bar" role="progressbar" style="width: {{ round_percent($progress) }}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="m-0" style="font-size: 17px; color: navajowhite;">{{ round_percent($progress) }}% complete</p>
+                </div>
                 <!-- Back to Course -->
                 <a href="{{ route('courses.show', ['course' => $course->id]) }}"
                     class="btn btn-sm btn-orange ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back

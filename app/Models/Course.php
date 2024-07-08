@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use AmazonS3;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Course extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    protected $dateFormat = 'Y-m-d H:i:s'; 
     protected $table = 'courses';
 
     protected $fillable = [
@@ -294,6 +295,13 @@ class Course extends Model
      */
     public function getTrailerUrlAttribute($value)
     {
+        // dd($this->getKey());
         return AmazonS3::getObjectUrl($value);
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        $carbonDate = new Carbon($date);
+        return $carbonDate->format('Y-m-d H:i:s');
     }
 }

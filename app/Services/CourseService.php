@@ -62,6 +62,11 @@ class CourseService
         return $this->courseRepo->findOrFail($courseId);
     }
 
+    public function getCourseLatest()
+    {
+        return $this->courseRepo->getCourseLatest();
+    }
+
     /**
      * @param GetCoursesRequest $request
      * @return LengthAwarePaginator<Course>
@@ -90,6 +95,15 @@ class CourseService
     public function getInstructorCourses($id): LengthAwarePaginator
     {
         return $this->courseRepo->getInstructorCourses($id);
+    }
+
+     /**
+     * @param int $id
+     * @return LengthAwarePaginator<Model>
+     */
+    public function getInstructorCoursesRecent($id): LengthAwarePaginator
+    {
+        return $this->enrollmentRepo->getInstructorCoursesRecent($id);
     }
 
     /**
@@ -280,5 +294,9 @@ class CourseService
     public function getStudents($id)
     {
         return $this->enrollmentRepo->getStudents($id);
+    }
+
+    public function getUserProgress($courseId) {
+        return $this->enrollmentRepo->getUserProgress($courseId);
     }
 }

@@ -6,6 +6,8 @@ use App\Repositories\RepositoryInterface;
 
 interface TeacherProfileRepositoryInterface extends RepositoryInterface
 {
+
+    public function findUser($userId);
     /**
      * Update or create profile by user id
      *

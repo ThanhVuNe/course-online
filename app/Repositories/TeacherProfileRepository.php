@@ -16,6 +16,10 @@ class TeacherProfileRepository extends BaseRepository implements TeacherProfileR
         return TeacherProfile::class;
     }
 
+    public function findUser($userId)
+    {
+        return $this->model->where('user_id', $userId)->first();
+    }
     /**
      * Update or create profile by user id
      *

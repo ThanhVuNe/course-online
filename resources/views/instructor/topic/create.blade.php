@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/toast.css') }}">
 @endsection.
 @section('script')
-    <script src="{{ asset('assets/js/theme.min.js') }}"></script>
-    <script src="{{ asset('assets/js/toast.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/theme.min.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/toast.js') }}"></script>
 @endsection
 @section('content')
     <main id="main" class="main">
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="text-center" style="margin-top: 40px;">
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                        <a href = {{route('instructor.curriculum.show', ['courseId' => $courseId])}}  class="btn btn-secondary">Cancel</a>
+                                        <a href = {{route('instructor.courses.curriculum.show', ['courseId' => $courseId])}}  class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </form>
                             </div>

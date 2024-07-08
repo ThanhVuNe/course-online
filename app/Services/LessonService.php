@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\LessonRepositoryInterface;
+use App\Repositories\Interfaces\ProcessingRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class LessonService
@@ -12,16 +13,30 @@ class LessonService
      */
     protected $lessonRepo;
 
-    public function __construct(LessonRepositoryInterface $lessonRepo)
+    /**
+     * @var ProcessingRepositoryInterface
+     */
+    protected $proRepo;
+    public function __construct(LessonRepositoryInterface $lessonRepo, ProcessingRepositoryInterface $proRepo)
     {
         $this->lessonRepo = $lessonRepo;
+        $this->proRepo = $proRepo;
     }
 
     /**
      * @param int $lessonId
      * @return Model
      */
-    public function findLesson($lessonId)
+    public function findLesson($lessonId, $userId)
+    {
+        return $this->lessonRepo->getLessonByProcessing($lessonId, $userId);
+    }
+
+     /**
+     * @param int $lessonId
+     * @return Model
+     */
+    public function findLessonInstructor($lessonId)
     {
         return $this->lessonRepo->findOrFail($lessonId);
     }
@@ -43,5 +58,20 @@ class LessonService
     public function update($lessonId, $data)
     {
         return $this->lessonRepo->update($lessonId, $data);
+    }
+
+    public function saveProcess($lessonId)
+    {
+        if(!$this->proRepo->checkExist(auth()->id(), $lessonId)) {
+            $this->proRepo->create([
+                'user_id' => auth()->id(),
+                'lesson_id' => $lessonId
+            ]);
+        }
+    }
+
+    public function getLessonByCourse($courseId)
+    {
+        return $this->lessonRepo->getLessonByCourse($courseId);
     }
 }

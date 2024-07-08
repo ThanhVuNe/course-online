@@ -22,8 +22,7 @@ class StoreLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['bail', 'required', 'unique:lessons,title', 'string', 'max:255'],
-            'lesson_duration' => 'required',
+            'title' => ['bail', 'required', 'string', 'max:255'],
             'topic_id' => 'required',
             'lesson_url' => 'bail'
         ];

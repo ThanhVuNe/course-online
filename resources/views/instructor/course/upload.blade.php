@@ -90,8 +90,8 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="offset-sm-10 col-sm-2">
-                                    <a id="uploadS3" class="btn btn-success">UPLOAD</a>
+                                <div class="offset-sm-8 col-sm-2 d-flex">
+                                    <a id="uploadS3" class="btn btn-success mx-2">UPLOAD</a>
                                     <a id="btnFinish" href="{{ route('instructor.courses.index') }}" class="btn btn-primary" aria-disabled="true">FINISH</a>
                                 </div>
                             </div>

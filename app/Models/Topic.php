@@ -15,7 +15,7 @@ class Topic extends Model
 
     protected $table = 'topics';
 
-    protected $fillable = ['name','course_id'];
+    protected $fillable = ['id','name','course_id'];
 
     /**
      * @return BelongsTo<Course, Topic>
@@ -31,5 +31,21 @@ class Topic extends Model
     public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    /**
+     * @return HasMany<Questions>
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Questions::class);
+    }
+
+     /**
+     * @return HasMany<Results>
+     */
+    public function results(): HasMany
+    {
+        return $this->hasMany(Results::class);
     }
 }

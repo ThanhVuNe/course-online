@@ -128,13 +128,13 @@
 
                             <!-- Heading -->
                             <div class="position-relative">
-                                <a href="#" class="d-block stretched-link">
-                                    <h4 class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">{{ $course->title }}</h4>
-                                </a>
+                                {{-- <a href="#" class="d-block stretched-link"> --}}
+                                    <h4 class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">{{ $course->course->title }}</h4>
+                                {{-- </a> --}}
 
                                 <div class="row mx-n2 align-items-end">
                                     <div class="col px-2 font-size-sm text-show-line">
-                                        {{ $course->brief }}
+                                        {!! $course->course->description !!}
                                     </div>
                                 </div>
                                 <div class="row mx-n2 mt-3 align-items-end">

@@ -76,7 +76,8 @@ class PaypalController extends Controller
                 session()->flash('error', __('messages.order.error.create_order'));
                 return redirect()->route('carts.index');
             }
-            return redirect()->route('orders.index');
+            $method = "Paypal";
+            return redirect()->route('orders.index', ['method' => $method]);
         }
 
         return redirect()->route('cart.index')->with('error', $response['message'] ?? __('messages.payment.paypal.error'));

@@ -16,8 +16,13 @@ class TeacherProfileService
         $this->teacherProfileRepo = $teacherProfileRepo;
     }
 
-    public function update($data)
+    public function updateOrCreate($data)
     {
+        $profile = $this->teacherProfileRepo->findUser(auth()->id());
+        if (!$profile) {
+            return $this->teacherProfileRepo->create(array_merge(['user_id' => auth()->id()], $data));
+        }
+    
         return $this->teacherProfileRepo->updateProfile(auth()->id(), $data);
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'order')
 @section('content')
-    <div class="bg-white woocommerce-order-received">
+    <div class="bg-white woocommerce-order-received" style="margin-top: 100px;">
         <!-- SHOP ORDER COMPLETED
                                                             ================================================== -->
         <div class="container py-8 py-lg-11">
@@ -52,7 +52,14 @@
                                         <tfoot>
                                             <tr>
                                                 <th scope="row">Payment method:</th>
-                                                <td>Paypal payments</td>
+                                                <td>
+                                                    @if (request()->get('method') == 'Paypal')
+                                                    {{-- asset('assets/img/illustrations/survey-1.png') --}}
+                                                        <img style="width: 60px; height: 60px" src="{{ asset('assets/img/paypal.jpeg') }}" alt="">
+                                                    @else
+                                                         <img style="width: 60px; height: 60px" src="{{ asset('assets/img/vnPay.png') }}" alt="">
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Total:</th>

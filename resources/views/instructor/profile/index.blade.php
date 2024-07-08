@@ -30,12 +30,12 @@
 
               <img src="{{ $user->profile->avatar }}" alt="Profile" class="rounded-circle">
               <h2>{{ $user->profile->full_name }}</h2>
-              <h3>{{ $user->teacher_profile->skill }}</h3>
+              <h3>{{ $user->teacher_profile?->skill }}</h3>
               <div class="social-links mt-2">
-                <a href="{{ $user->teacher_profile->facebook }}" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="{{ $user->teacher_profile->twitter }}" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="{{ $user->teacher_profile->instagram }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="{{ $user->teacher_profile->linkedin }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="{{ $user->teacher_profile?->facebook }}" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="{{ $user->teacher_profile?->twitter }}" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="{{ $user->teacher_profile?->instagram }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="{{ $user->teacher_profile?->linkedin }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
               </div>
             </div>
           </div>
@@ -57,16 +57,12 @@
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
 
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-                </li>
-
               </ul>
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">{{ $user->teacher_profile->bio }}</p>
+                  <p class="small fst-italic">{{ $user->teacher_profile?->bio }}</p>
 
                   <h5 class="card-title">Profile Details</h5>
 
@@ -77,12 +73,12 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Skill</div>
-                    <div class="col-lg-9 col-md-8">{{ $user->teacher_profile->skill }}</div>
+                    <div class="col-lg-9 col-md-8">{{ $user->teacher_profile?->skill }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">{{ $user->teacher_profile->phone }}</div>
+                    <div class="col-lg-9 col-md-8">{{ $user->teacher_profile?->phone }}</div>
                   </div>
 
                   <div class="row">
@@ -122,35 +118,35 @@
                     <div class="row mb-3">
                       <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="bio" class="form-control" id="about" style="height: 100px">{{ old('bio', $user->teacher_profile->bio) }}</textarea>
+                        <textarea name="bio" class="form-control" id="about" style="height: 100px">{{ old('bio', $user->teacher_profile?->bio) }}</textarea>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Skill</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="skill" type="text" class="form-control" id="Job" value="{{ old('skill', $user->teacher_profile->skill) }}">
+                        <input name="skill" type="text" class="form-control" id="Job" value="{{ old('skill', $user->teacher_profile?->skill) }}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="{{ old('phone', $user->teacher_profile->phone) }}">
+                        <input name="phone" type="text" class="form-control" id="Phone" value="{{ old('phone', $user->teacher_profile?->phone) }}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook" value="{{ old('skill', $user->teacher_profile->facebook) }}">
+                        <input name="facebook" type="text" class="form-control" id="Facebook" value="{{ old('skill', $user->teacher_profile?->facebook) }}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter" value="{{ old('skill', $user->teacher_profile->twitter) }}">
+                        <input name="twitter" type="text" class="form-control" id="Twitter" value="{{ old('skill', $user->teacher_profile?->twitter) }}">
                       </div>
                     </div>
 
@@ -158,14 +154,14 @@
                     <div class="row mb-3">
                       <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram" value="{{ old('skill', $user->teacher_profile->instagram) }}">
+                        <input name="instagram" type="text" class="form-control" id="Instagram" value="{{ old('skill', $user->teacher_profile?->instagram) }}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="{{ old('skill', $user->teacher_profile->linkedin) }}">
+                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="{{ old('skill', $user->teacher_profile?->linkedin) }}">
                       </div>
                     </div>
 
@@ -173,38 +169,6 @@
                       <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
-
-                </div>
-
-                <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form>
-
-                    <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
-                  </form><!-- End Change Password Form -->
 
                 </div>
 
@@ -220,3 +184,4 @@
   </main><!-- End #main -->
 
   @endsection
+  

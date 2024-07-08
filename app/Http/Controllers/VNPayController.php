@@ -60,6 +60,7 @@ class VNPayController extends Controller
             return redirect()->route('carts.index');
         }
 
-        return redirect()->route('orders.index');
+        $method = 'VnPay';
+        return redirect()->route('orders.index', ['method' => $method]);
     }
 }

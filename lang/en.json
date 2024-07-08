@@ -1,7 +1,7 @@
 {
     "success": "Success!",
     "error": "Error!",
-    "login_title": "Log In to Your Skola Account!",
+    "login_title": "Log In to Your Account!",
     "register_title": "Sign Up and Start Learning!",
     "forgot_title": "Forgot Password",
     "reset_title" : "Reset Password",

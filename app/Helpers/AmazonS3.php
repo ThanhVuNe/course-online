@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\FilesystemAdapter;
 
@@ -52,11 +53,21 @@ class AmazonS3
      *
      * @return string
      */
-    public function getObjectUrl(string $objectKey, int $expiration = self::EXPIRATION_TIME): string
+    public function getObjectUrl(string $objectKey, int $id=2, int $expiration = self::EXPIRATION_TIME): string
     {
-        return $this->s3Client()->client->temporaryUrl(
-            $objectKey,
-            now()->addMinutes($expiration)
-        );
+        try {
+            return $this->s3Client()->client->temporaryUrl(
+                $objectKey,
+                now()->addMinutes($expiration)
+            );
+        } catch (Exception $e) {
+            dump($objectKey);
+            return '';
+        }
+       
+    }
+
+    public function getFile(string $key) {
+        return $this->s3Client()->client->get($key);
     }
 }

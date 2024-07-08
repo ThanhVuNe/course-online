@@ -2,7 +2,7 @@
 @section('title', 'checkout')
 
 @section('content')
-    <div class="bg-white woocommerce-order-received">
+    <div class="bg-white woocommerce-order-received" style="margin-top: 100px">
         <!-- SHOP ORDER COMPLETED
                                                                                                                                                                                         ================================================== -->
         <div class="container py-8 py-lg-11">

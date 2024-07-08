@@ -52,7 +52,7 @@ class CourseController extends Controller
     public function index(GetCoursesRequest $request): View
     {
         $userId = (int) auth()->id();
-
+        // dd($request, $userId);
         $courses = $this->courseService->getCourses($request);
 
         // dd($request->validated());
@@ -74,7 +74,7 @@ class CourseController extends Controller
         $course = $this->courseService->getCourse($id);
 
         $reviews = $this->reviewService->getReviewsByCourse($id);
-        $recommend = $this->courseService->recommnedCourse($userId);
+        // $recommend = $this->courseService->recommnedCourse($userId);
         $enrolled = false;
         $favorited = false;
         if (auth()->check()) {
@@ -82,7 +82,7 @@ class CourseController extends Controller
             $favorited = $this->courseService->isFavorited((int) auth()->id(), $id);
         }
 
-        return view('course.show', compact('course', 'reviews', 'enrolled', 'recommend', 'favorited'));
+        return view('course.show', compact('course', 'reviews', 'enrolled', 'favorited'));
     }
 
     /**

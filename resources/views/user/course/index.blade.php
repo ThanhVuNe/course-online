@@ -1,5 +1,20 @@
 @extends('layouts.app')
 @section('title', 'My Courses')
+@section('style')
+    <style>
+        .progress {
+            height: 5px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background-color: blueviolet;
+            border-radius: 10px;
+        }
+    </style>
+@endsection
 @section('script')
     <script type="module" src="{{ asset('assets/js/remove.duplicate.js') }}"></script>
 @endsection
@@ -107,17 +122,15 @@
                                 <img class="rounded shadow-light-lg" src="{{ $course->course->poster_url }}"
                                     alt="...">
                             </a>
+
+                            <div class="progress m-0">
+                                <div class="progress-bar" role="progressbar" style="width: {{ round_percent($course->course->progress) }}%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="m-0" style="font-size: 12px;">{{{ round_percent($course->course->progress) }}}% complete</p>
                         </div>
 
                         <!-- Footer -->
                         <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
-                            <a href="instructors-single.html" class="">
-                                <div
-                                    class="avatar avatar-xl sk-fade-right badge-float position-absolute top-0 right-0 mt-n6 me-5 rounded-circle shadow border border-white border-w-lg">
-                                    <img src="{{ asset('assets/img/avatars/avatar-2.jpg') }}" alt="..."
-                                        class="avatar-img rounded-circle">
-                                </div>
-                            </a>
 
                             <!-- Preheading -->
                             <ul class="nav mx-n3 mb-3 d-xl-flex align-items-center">
@@ -128,13 +141,13 @@
 
                             <!-- Heading -->
                             <div class="position-relative">
-                                <a href="#" class="d-block stretched-link">
+                                {{-- <a href="#" class="d-block stretched-link"> --}}
                                     <h4 class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">{{ $course->title }}</h4>
-                                </a>
+                                {{-- </a> --}}
 
                                 <div class="row mx-n2 align-items-end">
                                     <div class="col px-2 font-size-sm text-show-line">
-                                        {{ $course->brief }}
+                                        {!! $course->brief !!}
                                     </div>
                                 </div>
                                 <div class="row mx-n2 mt-3 align-items-end">

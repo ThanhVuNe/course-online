@@ -21,6 +21,11 @@ class CategoryService
         $this->categoryRepo = $categoryRepo;
     }
 
+    public function getAllCategory()
+    {
+        return $this->categoryRepo->getAllCategory();
+    }
+
     /**
      * @param array $columns
      * @return Collection

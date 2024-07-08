@@ -37,7 +37,7 @@
 @endsection
 @section('content')
 <header class="py-8 py-lg-12 mb-8 overlay overlay-primary overlay-80"
-    style="background-image: url({{ asset('assets/img/covers/cover-19.jpg') }} );">
+    style="background-image: url({{ asset('assets/img/covers/cover-19.jpg') }} ); margin-top: 100px;">
     <div class="container text-center py-xl-5">
         <h1 class="display-4 fw-semi-bold mb-0 text-white">{{ __('page_name_course') }}</h1>
         <nav aria-label="breadcrumb">

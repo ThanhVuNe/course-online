@@ -9,7 +9,7 @@
     <script src="{{ asset('assets/js/toast.js') }}"></script>
 @endsection
 @section('content')
-    <div class="container py-4 bg-white-ice">
+    <div class="container py-4 bg-white-ice" style="margin-top: 150px">
         <div class="row">
             @include('user.sidebar')
             @include('layouts.message')

@@ -7,6 +7,7 @@ use App\Http\Requests\DeleteCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Services\CommentService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -18,6 +19,22 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
+    }
+
+     public function create(Request $request)
+    {
+        $comment = $this->commentService->create([
+            'user_id' => auth()->id(),
+            'lesson_id' => $request->lesson_id,
+            'content' => $request->content, // Get the content from the request
+            'parent_id' => $request->parent_id
+        ]);
+
+        if ($comment) {
+            return response()->json(['message' => __('messages.comment.success.create'), 'code' => 200], 200);
+        }
+
+        return response()->json(['message' => __('messages.comment.error.create'), 'code' => 400], 400);
     }
 
     /**

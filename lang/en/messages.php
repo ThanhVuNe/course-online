@@ -95,7 +95,15 @@ return [
             'create' => 'Create topic was successful',
         ],
         'error' => [
-            'create' => 'Create comment was failed'
+            'create' => 'Create topic was failed'
+        ]
+    ],
+    'question' => [
+        'success' => [
+            'create' => 'Create question was successful',
+        ],
+        'error' => [
+            'create' => 'Create question was failed'
         ]
     ],
     'file' => [

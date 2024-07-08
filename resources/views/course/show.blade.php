@@ -20,30 +20,35 @@
 <style>
     .heart-animation {
         position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1.5em;
-    height: 1.5em;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid #fff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    display: none; /* Initially hidden */
-}
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 1.5em;
+        height: 1.5em;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid #fff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Initially hidden */
+    }
 
-@keyframes heartAnimation {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
+    @keyframes heartAnimation {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
 
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
 </style>
 @endsection
 @section('script')
 <script src="{{ asset('assets/js/toast.js') }}"></script>
 <script src="{{ asset('assets/js/courses.js') }}"></script>
 <script type="module">
-$(document).ready(function () {
+    $(document).ready(function () {
     $('.favorite-button').click(function () {
         var button = $(this);
         var courseId = button.data('course-id');
@@ -79,7 +84,7 @@ $(document).ready(function () {
     </div>
 </div>
 <!-- COURSE ================================================== -->
-<div class="container">
+<div class="container" style="margin-top: 100px;">
     <div class="row mb-8">
         <div class="col-lg-8 mb-6 mb-lg-0 position-relative">
             @include('layouts.message')
@@ -91,15 +96,18 @@ $(document).ready(function () {
                  -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
                 " class="me-xl-13 mb-5 text-white">{!! $course->introduction !!}</p>
-               <form id="favoriteForm_{{ $course->id }}" action="{{ route('toggle-favorite', ['courseId' => $course->id]) }}" method="post" data-url="{{ route('toggle-favorite', ['courseId' => $course->id]) }}">
-                @csrf
-                <button type="button" class="favorite-button badge badge-lg badge-rounded-circle badge-secondary font-size-base badge-float badge-float-inside top-0 text-white" style="border: 1px; background-color: {{ $favorited ? 'red': '' }}"
-                    data-course-id="{{ $course->id }}"
-                    data-favorited="{{ $favorited ? 'true' : 'false' }}">
-                    <i class="far fa-heart"></i>
-                    <span class="heart-animation"></span>
-                </button>
-            </form>
+                <form id="favoriteForm_{{ $course->id }}"
+                    action="{{ route('toggle-favorite', ['courseId' => $course->id]) }}" method="post"
+                    data-url="{{ route('toggle-favorite', ['courseId' => $course->id]) }}">
+                    @csrf
+                    <button type="button"
+                        class="favorite-button badge badge-lg badge-rounded-circle badge-secondary font-size-base badge-float badge-float-inside top-0 text-white"
+                        style="border: 1px; background-color: {{ $favorited ? 'red': '' }}"
+                        data-course-id="{{ $course->id }}" data-favorited="{{ $favorited ? 'true' : 'false' }}">
+                        <i class="far fa-heart"></i>
+                        <span class="heart-animation"></span>
+                    </button>
+                </form>
             </div>
 
             <!-- COURSE META ================================================== -->
@@ -208,9 +216,9 @@ $(document).ready(function () {
                             <div class="d-flex align-items-center" id="curriculumheading{{ $key }}">
                                 <h5 class="mb-0 w-100">
                                     <button
-                                        class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one"
+                                        class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one collapsed"
                                         type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#Curriculumcollapse{{ $key }}" aria-expanded="true"
+                                        data-bs-target="#Curriculumcollapse{{ $key }}" aria-expanded="false"
                                         aria-controls="Curriculumcollapse{{ $key }}">
                                         <span class="me-4 text-dark d-flex">
                                             <!-- Icon -->
@@ -232,7 +240,7 @@ $(document).ready(function () {
                                 </h5>
                             </div>
 
-                            <div id="Curriculumcollapse{{ $key }}" class="collapse {{ $key == 0 ? 'show' : '' }}"
+                            <div id="Curriculumcollapse{{ $key }}" class="collapse"
                                 aria-labelledby="curriculumheading{{ $key }}" data-parent="#accordionCurriculum">
                                 @foreach ($topic->lessons as $key => $lesson)
                                 <div
@@ -278,32 +286,17 @@ $(document).ready(function () {
 
                                     <div
                                         class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
-                                        <div class="badge text-dark-70 bg-orange-40 me-5 font-size-sm fw-normal py-2">
-                                            3
-                                            question</div>
                                         <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">
                                             {{ $lesson->lesson_duration }} min</div>
                                         <a href="{{ $enrolled == true ? route('courses.lessons.show', ['courseId' => $course->id, 'lessonId' => $lesson->id]) : '#' }}"
                                             class="text-secondary d-flex">
                                             <!-- Icon -->
-                                            @if ($key % 2 == 0)
                                             <svg width="14" height="16" viewBox="0 0 14 16"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M12.8704 6.15374L3.42038 0.328572C2.73669 -0.0923355 1.9101 -0.109836 1.20919 0.281759C0.508282 0.673291 0.0898438 1.38645 0.0898438 2.18929V13.7866C0.0898438 15.0005 1.06797 15.9934 2.27016 16C2.27344 16 2.27672 16 2.27994 16C2.65563 16 3.04713 15.8822 3.41279 15.6591C3.70694 15.4796 3.79991 15.0957 3.62044 14.8016C3.44098 14.5074 3.05697 14.4144 2.76291 14.5939C2.59188 14.6982 2.42485 14.7522 2.27688 14.7522C1.82328 14.7497 1.33763 14.3611 1.33763 13.7866V2.18933C1.33763 1.84492 1.51713 1.53907 1.81775 1.3711C2.11841 1.20314 2.47294 1.21064 2.76585 1.39098L12.2159 7.21615C12.4999 7.39102 12.6625 7.68262 12.6618 8.01618C12.6611 8.34971 12.4974 8.64065 12.2118 8.81493L5.37935 12.9983C5.08548 13.1783 4.9931 13.5623 5.17304 13.8562C5.35295 14.1501 5.73704 14.2424 6.03092 14.0625L12.8625 9.87962C13.5166 9.48059 13.9081 8.78496 13.9096 8.01868C13.9112 7.25249 13.5226 6.55524 12.8704 6.15374Z"
                                                     fill="currentColor" />
                                             </svg>
-                                            @else
-                                            <svg width="20" height="20" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M15.625 7.34375H7.3423V4.13164C7.3423 2.715 8.53391 1.5625 9.99855 1.5625C11.4632 1.5625 12.6548 2.715 12.6548 4.13164V5.625H14.2173V4.13164C14.2173 1.85344 12.3248 0 9.99855 0C7.67234 0 5.7798 1.85344 5.7798 4.13164V7.34375H4.375C3.08266 7.34375 2.03125 8.39516 2.03125 9.6875V17.6562C2.03125 18.9486 3.08266 20 4.375 20H15.625C16.9173 20 17.9688 18.9486 17.9688 17.6562V9.6875C17.9688 8.39516 16.9173 7.34375 15.625 7.34375ZM16.4062 17.6562C16.4062 18.087 16.0558 18.4375 15.625 18.4375H4.375C3.94422 18.4375 3.59375 18.087 3.59375 17.6562V9.6875C3.59375 9.25672 3.94422 8.90625 4.375 8.90625H15.625C16.0558 8.90625 16.4062 9.25672 16.4062 9.6875V17.6562Z"
-                                                    fill="currentColor" />
-                                                <path
-                                                    d="M10 11.1719C9.20176 11.1719 8.55469 11.8189 8.55469 12.6172C8.55469 13.1269 8.81875 13.5746 9.2173 13.832V15.5469C9.2173 15.9783 9.56707 16.3281 9.99855 16.3281C10.43 16.3281 10.7798 15.9783 10.7798 15.5469V13.8338C11.18 13.5768 11.4453 13.1281 11.4453 12.6172C11.4453 11.8189 10.7982 11.1719 10 11.1719Z"
-                                                    fill="currentColor" />
-                                            </svg>
-                                            @endif
                                         </a>
                                     </div>
                                 </div>
@@ -524,63 +517,65 @@ $(document).ready(function () {
                     </ul>
 
                     @auth
-                    @if ($reviews->where('user_id', auth()->id())->where('course_id', $course->id)->isEmpty())
-                    <div class="border shadow rounded p-6 p-md-9">
-                        <h3 class="mb-2">Add Reviews & Rate</h3>
-                        <div class="">What is it like to Course?</div>
-                        <form action="{{ route('reviews.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                            <div class="clearfix">
-                                <fieldset class="slect-rating mb-3">
-                                    <input type="radio" id="star5" name="rating" value="5" />
-                                    <label class="full" for="star5" title="Awesome - 5 stars"></label>
+                    @if ($enrolled)
+                        @if ($reviews->where('user_id', auth()->id())->where('course_id', $course->id)->isEmpty())
+                        <div class="border shadow rounded p-6 p-md-9">
+                            <h3 class="mb-2">Add Reviews & Rate</h3>
+                            <div class="">What is it like to Course?</div>
+                            <form action="{{ route('reviews.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                <div class="clearfix">
+                                    <fieldset class="slect-rating mb-3">
+                                        <input type="radio" id="star5" name="rating" value="5" />
+                                        <label class="full" for="star5" title="Awesome - 5 stars"></label>
 
-                                    <input type="radio" id="star4half" name="rating" value="4.5" />
-                                    <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+                                        <input type="radio" id="star4half" name="rating" value="4.5" />
+                                        <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
 
-                                    <input type="radio" id="star4" name="rating" value="4" />
-                                    <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                                        <input type="radio" id="star4" name="rating" value="4" />
+                                        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
 
-                                    <input type="radio" id="star3half" name="rating" value="3.5" />
-                                    <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                                        <input type="radio" id="star3half" name="rating" value="3.5" />
+                                        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
 
-                                    <input type="radio" id="star3" name="rating" value="3" />
-                                    <label class="full" for="star3" title="Meh - 3 stars"></label>
+                                        <input type="radio" id="star3" name="rating" value="3" />
+                                        <label class="full" for="star3" title="Meh - 3 stars"></label>
 
-                                    <input type="radio" id="star2half" name="rating" value="2.5" />
-                                    <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+                                        <input type="radio" id="star2half" name="rating" value="2.5" />
+                                        <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
 
-                                    <input type="radio" id="star2" name="rating" value="2" />
-                                    <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                                        <input type="radio" id="star2" name="rating" value="2" />
+                                        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
 
-                                    <input type="radio" id="star1half" name="rating" value="1.5" />
-                                    <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                                        <input type="radio" id="star1half" name="rating" value="1.5" />
+                                        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
 
-                                    <input type="radio" id="star1" name="rating" value="1" />
-                                    <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                                        <input type="radio" id="star1" name="rating" value="1" />
+                                        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
 
-                                    <input type="radio" id="starhalf" name="rating" value="half" />
-                                    <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-                                </fieldset>
-                            </div>
-                            @error('rating')
-                            <span class="text-alizarin fst-italic">{{ $message }}</span>
-                            @enderror
-                            <div class="form-group mb-6">
-                                <label for="exampleFormControlTextarea1">Review Content</label>
-                                <textarea name="review" class="form-control placeholder-1"
-                                    id="exampleFormControlTextarea1" rows="6"
-                                    placeholder="Content">{{ old('review') }}</textarea>
-                                @error('review')
+                                        <input type="radio" id="starhalf" name="rating" value="half" />
+                                        <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                                    </fieldset>
+                                </div>
+                                @error('rating')
                                 <span class="text-alizarin fst-italic">{{ $message }}</span>
                                 @enderror
-                            </div>
+                                <div class="form-group mb-6">
+                                    <label for="exampleFormControlTextarea1">Review Content</label>
+                                    <textarea name="review" class="form-control placeholder-1"
+                                        id="exampleFormControlTextarea1" rows="6"
+                                        placeholder="Content">{{ old('review') }}</textarea>
+                                    @error('review')
+                                    <span class="text-alizarin fst-italic">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-                            <button type="submit" class="btn btn-primary btn-block mw-md-300p">SUBMIT
-                                REVIEW</button>
-                        </form>
-                    </div>
+                                <button type="submit" class="btn btn-primary btn-block mw-md-300p">SUBMIT
+                                    REVIEW</button>
+                            </form>
+                        </div>
+                        @endif
                     @endif
                     @endauth
 
@@ -641,7 +636,7 @@ $(document).ready(function () {
                     </div>
 
                     @if ($enrolled == false)
-                    <button class="btn btn-primary btn-block mb-3" type="button" name="button">BUY NOW(To do)</button>
+                    <button class="btn btn-primary btn-block mb-3" type="button" name="button">BUY NOW</button>
                     <form action="{{ route('carts.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="course_id" value="{{ $course->id }}">
@@ -780,5 +775,5 @@ $(document).ready(function () {
 </div>
 
 {{-- RECOMMEND --}}
-@include('common.recommend')
+{{-- @include('common.recommend') --}}
 @endsection
